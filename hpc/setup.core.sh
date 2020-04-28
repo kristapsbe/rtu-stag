@@ -1,13 +1,11 @@
-
-
-# https://github.com/conda/conda/issues/7980
-source ~/anaconda3/etc/profile.d/conda.sh
+# need to add pbs pro header stuff
+# remember to use a single node
 
 # first thing's first clone stag if it's not here already
-git clone https://github.com/lucren/stag-mwc.git ../stag-mwc
+git clone https://github.com/lucren/stag-mwc.git ../../stag-mwc
 
 # go into the folder and pull changes (mostly to deal with a case where the repohas already been pulled)
-cd ../stag-mwc
+cd ../../stag-mwc
 git checkout hpc_mod # the modded branch that we're working with
 git pull
 
