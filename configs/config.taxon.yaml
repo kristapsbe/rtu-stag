@@ -31,7 +31,7 @@ naive:
     sketch_compare: False
 taxonomic_profile:
     kaiju: False
-    kraken2: False
+    kraken2: True
     metaphlan2: False
 functional_profile:
     humann2: False
