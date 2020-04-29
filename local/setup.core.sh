@@ -1,3 +1,4 @@
+#!/bin/bash
 # the goal of this script is to get the environment as a whole set up 
 # 
 # https://github.com/conda/conda/issues/7980
