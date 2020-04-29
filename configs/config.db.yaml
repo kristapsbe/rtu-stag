@@ -26,7 +26,7 @@ email: ""                    # Email to send status message after completed/fail
 #########################
 # Pipeline steps included
 #########################
-qc_reads: False
+qc_reads: False # everything has to be set to false when pulling the databases
 host_removal: False
 naive:
     assess_depth: False

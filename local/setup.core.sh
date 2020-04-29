@@ -1,5 +1,5 @@
 # the goal of this script is to get the environment as a whole set up 
-#
+# 
 # https://github.com/conda/conda/issues/7980
 source ~/anaconda3/etc/profile.d/conda.sh
 
@@ -40,3 +40,17 @@ cd ../kraken2
 cd ..
 rm -rf kraken2
 mv kraken2_installed kraken2
+
+# setting up the kraken2 taxon database
+#
+# purge any databases that we may have set up for this already
+rm -rf taxon_databases
+
+# start by setting up the kraken2 database
+mkdir taxon_databases
+cd taxon_databases
+../kraken2/kraken2-build --use-ftp --download-taxonomy --db kraken_taxon --threads 12
+../kraken2/kraken2-build --use-ftp --no-masking --download-library archaea --db kraken_taxon --threads 12
+../kraken2/kraken2-build --use-ftp --no-masking --download-library bacteria --db kraken_taxon --threads 12
+../kraken2/kraken2-build --use-ftp --no-masking --download-library fungi --db kraken_taxon --threads 12
+../kraken2/kraken2-build --build --db kraken_taxon --threads 12
