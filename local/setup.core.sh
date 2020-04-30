@@ -45,15 +45,15 @@ mv kraken2_installed kraken2
 # setting up the kraken2 taxon database
 #
 # purge any databases that we may have set up for this already
-rm -rf taxon_databases
+rm -rf databases/taxon_databases
 
 # start by setting up the kraken2 database
-mkdir taxon_databases
+mkdir -p databases/taxon_databases
 cd taxon_databases
 ../kraken2/kraken2-build --use-ftp --download-taxonomy --db kraken_taxon --threads 12
 ../kraken2/kraken2-build --use-ftp --no-masking --download-library archaea --db kraken_taxon --threads 12
-../kraken2/kraken2-build --use-ftp --no-masking --download-library bacteria --db kraken_taxon --threads 12
-../kraken2/kraken2-build --use-ftp --no-masking --download-library fungi --db kraken_taxon --threads 12
+#../kraken2/kraken2-build --use-ftp --no-masking --download-library bacteria --db kraken_taxon --threads 12
+#../kraken2/kraken2-build --use-ftp --no-masking --download-library fungi --db kraken_taxon --threads 12
 ../kraken2/kraken2-build --build --db kraken_taxon --threads 12
 # and the refence database that we'll be using to filter the reads (note that it's the GRCh38 reference)
 ../kraken2/kraken2-build --use-ftp --download-taxonomy --db human_reference --threads 12
