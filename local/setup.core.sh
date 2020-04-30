@@ -49,13 +49,13 @@ rm -rf databases/taxon_databases
 
 # start by setting up the kraken2 database
 mkdir -p databases/taxon_databases
-cd taxon_databases
-../kraken2/kraken2-build --use-ftp --download-taxonomy --db kraken_taxon --threads 12
-../kraken2/kraken2-build --use-ftp --no-masking --download-library archaea --db kraken_taxon --threads 12
-#../kraken2/kraken2-build --use-ftp --no-masking --download-library bacteria --db kraken_taxon --threads 12
-#../kraken2/kraken2-build --use-ftp --no-masking --download-library fungi --db kraken_taxon --threads 12
-../kraken2/kraken2-build --build --db kraken_taxon --threads 12
+cd databases/taxon_databases
+../../kraken2/kraken2-build --use-ftp --download-taxonomy --db kraken_taxon --threads 12
+../../kraken2/kraken2-build --use-ftp --no-masking --download-library archaea --db kraken_taxon --threads 12
+../../kraken2/kraken2-build --use-ftp --no-masking --download-library bacteria --db kraken_taxon --threads 12
+../../kraken2/kraken2-build --use-ftp --no-masking --download-library fungi --db kraken_taxon --threads 12
+../../kraken2/kraken2-build --build --db kraken_taxon --threads 12
 # and the refence database that we'll be using to filter the reads (note that it's the GRCh38 reference)
-../kraken2/kraken2-build --use-ftp --download-taxonomy --db human_reference --threads 12
-../kraken2/kraken2-build --use-ftp --no-masking --download-library human --db human_reference --threads 12
-../kraken2/kraken2-build --build --db human_reference --threads 12
+../../kraken2/kraken2-build --use-ftp --download-taxonomy --db human_reference --threads 12
+../../kraken2/kraken2-build --use-ftp --no-masking --download-library human --db human_reference --threads 12
+../../kraken2/kraken2-build --build --db human_reference --threads 12
