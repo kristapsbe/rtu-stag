@@ -10,6 +10,7 @@ echo "y" | conda install groot==0.8.4 bbmap==38.68
 # move back to the base dir
 cd ../..
 rm -rf process/process_func_db # clear out the old database stag setup in case we've changed something
+rm -rf databases/func_databases # get rid of the functional classification databases before recreating them
 
 # set up the new stag instance that we'll be using
 mkdir -p process/process_func_db

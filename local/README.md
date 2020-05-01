@@ -10,3 +10,4 @@ taxon classification uses around 43 gigs of memory
 whole process takes 20-25 minutes
 
 groot uses around 1.8 gigs of ram
+takes around 20 minutes to run

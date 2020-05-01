@@ -122,8 +122,8 @@ humann2:
 groot:
     db: "arg-annot"          # Used when downloading and indexing DB with "create_groot_index" rule
     index: "databases/func_databases/groot/arg-annot_index"                # [Required] Path to groot index
-    minlength: 100           # Minlength for groot index
-    maxlength: 150           # Maxlength for groot index
+    minlength: 140           # Minlength for groot index
+    maxlength: 160           # Maxlength for groot index
     covcutoff: 0.97          # Coverage cutoff for groot report
     lowcov: False            # Report ARGs with no 5' or 3' coverage. Overrides covcutoff.
 
