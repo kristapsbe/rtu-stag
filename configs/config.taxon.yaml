@@ -56,7 +56,7 @@ remove_host:
     extra: "--quick"         # Additional command line arguments to kraken2
     keep_kraken: False       # StaG deletes the kraken and kreport output files by default, set to True to keep them.
     keep_kreport: False
-    kraken2_path: "kraken2/"        # enable the ability to specify the location of Kraken2 due to the conda version throwing segfaults
+    kraken2_path: "kraken2/"        # enable the ability to specify the location of Kraken2 due to the conda version throwing segfaults - this has to have a trailing slash
 multiqc:
     extra: ""
 
@@ -90,7 +90,7 @@ kraken2:
     filter_bracken:          # Arguments to filter_bracken_out.py to include/exclude certain taxa
         include: ""
         exclude: "--exclude 9605 9606"  # Taxid 9605 and 9606 are (G) Homo and (S) Homo sapiens
-    kraken2_path: "kraken2"        # enable the ability to specify the location of Kraken2 due to the conda version throwing segfaults
+    kraken2_path: "kraken2/"        # enable the ability to specify the location of Kraken2 due to the conda version throwing segfaults - this has to have a trailing slash
 
 metaphlan2:
     bt2_db_dir: ""           # [Required] Path to MetaPhlAn2 database dir
