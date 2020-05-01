@@ -1,2 +1,12 @@
 #!/bin/bash
-# the goal of this script is to run the functional classification tasks
+#
+# https://github.com/conda/conda/issues/7980
+source ~/anaconda3/etc/profile.d/conda.sh
+conda activate stag-mwc
+# run through all of our built up taxon jobs
+cd ../..
+for f in process/process_func_*; do
+    cd "$f/stag-mwc"
+    snakemake --use-conda --cores 12
+    cd ../../..
+done

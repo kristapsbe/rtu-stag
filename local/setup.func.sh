@@ -5,7 +5,7 @@
 # https://github.com/conda/conda/issues/7980
 source ~/anaconda3/etc/profile.d/conda.sh
 conda activate stag-mwc
-echo "y" | conda install groot==0.8.4
+echo "y" | conda install groot==0.8.4 bbmap==38.68
 
 # move back to the base dir
 cd ../..
@@ -22,4 +22,7 @@ mkdir input
 touch input/1_1.fq.gz
 touch input/1_2.fq.gz
 # build up the databases using stag
-snakemake create_groot_index
+snakemake create_groot_index --cores 12
+# humann2 is being needlesly annoying due to dependency conflicts
+# will just rip the commands out of stag and run it as is
+# snakemake download_humann2_databases --cores 12
