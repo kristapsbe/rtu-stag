@@ -22,7 +22,7 @@ rm -rf databases/taxon_databases
 # set up the kraken2 database that we'll be matching our taxons agains
 mkdir -p databases/taxon_databases
 cd databases/taxon_databases
-#../../kraken2/kraken2-build --use-ftp --download-taxonomy --db kraken_taxon --threads 12
+../../kraken2/kraken2-build --use-ftp --download-taxonomy --db kraken_taxon --threads 12
 ../../kraken2/kraken2-build --use-ftp --no-masking --download-library archaea --db kraken_taxon --threads 12
 ../../kraken2/kraken2-build --use-ftp --no-masking --download-library bacteria --db kraken_taxon --threads 12
 ../../kraken2/kraken2-build --use-ftp --no-masking --download-library fungi --db kraken_taxon --threads 12
