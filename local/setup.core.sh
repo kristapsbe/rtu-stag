@@ -17,7 +17,7 @@ git checkout hpc_mod # the modded branch that we're working with
 git pull
 
 # create a conda env 
-# pip yes to overwrite the env
+# pipe yes to overwrite the env
 echo "y" | conda create --name stag-mwc python=3
 conda activate stag-mwc
 

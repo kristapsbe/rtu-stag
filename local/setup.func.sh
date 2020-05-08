@@ -27,3 +27,17 @@ snakemake create_groot_index --cores 12
 # humann2 is being needlesly annoying due to dependency conflicts
 # will just rip the commands out of stag and run it as is
 # snakemake download_humann2_databases --cores 12
+#
+# setup a conda env running python 2
+# pipe yes to overwrite the env
+echo "y" | conda create --name humann2 python=2
+conda activate humann2
+# and add needed channels
+conda config --add channels conda-forge
+conda config --add channels bioconda
+# pipe yes into the install to silence prompts
+echo "y" | conda install -c bioconda -c conda-forge humann2==2.8.1
+# download_humann2_databases
+cd ../../.. # path out of the stag copy and move back to the base dir
+humann2_databases --download chocophlan full databases/func_databases/humann2
+humann2_databases --download uniref uniref90_diamond databases/func_databases/humann2
