@@ -11,3 +11,6 @@ groot uses around 1.8 gigs of ram
 takes around 20 minutes to run
 
 the issue with humann2 is that it requires python2 (and, as a result, is incompatible with snakemake) - I think the local conda environments are there to deal with that, but they don't seem to be getting used
+
+diamond eats around 14 gigs of ram (missed the rest during the test run)
+takes at least an hour and a half (21:00) to run

@@ -5,7 +5,8 @@
 # https://github.com/conda/conda/issues/7980
 source ~/anaconda3/etc/profile.d/conda.sh
 conda activate stag-mwc
-echo "y" | conda install groot==0.8.4 bbmap==38.68
+# 09/05/2020 => metaphlan2 seems to be broken due to the database repo being set to private
+echo "y" | conda install groot==0.8.4 bbmap==38.68 metaphlan==3.0
 
 # move back to the base dir
 cd ../..
@@ -24,6 +25,8 @@ touch input/1_1.fq.gz
 touch input/1_2.fq.gz
 # build up the databases using stag
 snakemake create_groot_index --cores 12
+# set up metaphlan
+metaphlan --install
 # humann2 is being needlesly annoying due to dependency conflicts
 # will just rip the commands out of stag and run it as is
 # snakemake download_humann2_databases --cores 12
@@ -36,7 +39,7 @@ conda activate humann2
 conda config --add channels conda-forge
 conda config --add channels bioconda
 # pipe yes into the install to silence prompts
-echo "y" | conda install -c bioconda -c conda-forge humann2==2.8.1
+echo "y" | conda install -c bioconda -c conda-forge humann2==2.8.1 
 # download_humann2_databases
 cd ../../.. # path out of the stag copy and move back to the base dir
 humann2_databases --download chocophlan full databases/func_databases/humann2
