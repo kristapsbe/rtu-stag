@@ -36,8 +36,9 @@ metaphlan --install
 echo "y" | conda create --name humann2 python=2
 conda activate humann2
 # and add needed channels
-conda config --add channels conda-forge
+conda config --add channels defaults
 conda config --add channels bioconda
+conda config --add channels conda-forge
 # pipe yes into the install to silence prompts
 echo "y" | conda install -c bioconda -c conda-forge humann2==2.8.1 
 # download_humann2_databases
