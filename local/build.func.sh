@@ -27,3 +27,5 @@ for f in rtu-stag/samples/*.gz; do
     cp $f "process/process_func_$sample/stag-mwc/input/$trimmed"
 done
 
+# make directory for outputs in case it doesn't exist
+mkdir outputs
