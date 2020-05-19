@@ -45,6 +45,6 @@ for f in process/process_func_*; do
     rm -rf "$f/stag-mwc/output_dir/humann2/1_humann2_temp"
     # save the output folder and free up the space taken
     datestamp=$(date -d "today" +"%Y%m%d%H%M")
-    mv "$f/stag-mwc/output_dir" "output/output_dir_${sample}_func_${datestamp}"
+    mv "$f/stag-mwc/output_dir" "outputs/output_dir_${sample}_func_${datestamp}"
     rm -rf $f
 done

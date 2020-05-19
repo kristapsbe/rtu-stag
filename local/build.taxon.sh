@@ -28,4 +28,4 @@ for f in rtu-stag/samples/*.gz; do
 done
 
 # make directory for outputs in case it doesn't exist
-mkdir outputs
+mkdir -p outputs

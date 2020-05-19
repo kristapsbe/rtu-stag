@@ -1,6 +1,6 @@
 Scripts for setting up and processing samples on a local environment
 
-the taxonomic setup script took a full night to run (the main bottleneck in its runtime is network speed though as it needs to download around 110 gigs of data)
+the taxonomic setup script took a full night to run (the main bottleneck in its runtime is network speed though as it needs to download around 110 gigs of data) - takes around an hour to run with a stable 200 mb/s connection
 
 fastp uses around 2 gigs of ram
 host removal uses around 5 gigs of memory
