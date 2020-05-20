@@ -22,7 +22,7 @@ for f in rtu-stag/samples/*.gz; do
         mkdir -p "process/process_$sample"
         # move stag into this samples folder
         cp -r stag-mwc "process/process_$sample/stag-mwc"
-        cp rtu-stag/configs/config.run.yaml "process/process_$sample/stag-mwc/config.yaml" # changing the name to the default simplifies running
+        cp rtu-stag/configs/config.local.yaml "process/process_$sample/stag-mwc/config.yaml" # changing the name to the default simplifies running
         mkdir "process/process_$sample/stag-mwc/input"
     fi
     # move the sample to the stag folder
