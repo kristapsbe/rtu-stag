@@ -7,7 +7,7 @@
 
 # how many threads do we have?
 threads=8
-module activate conda
+module load conda
 conda init bash
 conda activate stag-mwc
 
