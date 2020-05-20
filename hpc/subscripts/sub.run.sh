@@ -8,6 +8,7 @@
 # how many threads do we have?
 threads=8
 module activate conda
+conda init bash
 conda activate stag-mwc
 
 trimmed=$(echo $0 | grep -o '[0-9]\+_[0-9]\+\.fq\.gz')
