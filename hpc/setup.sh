@@ -12,24 +12,6 @@ cd stag-mwc
 git checkout hpc_mod # the modded branch that we're working with
 git pull
 
-# create a conda env 
-# pipe yes to overwrite the env
-module load conda
-conda init bash
-echo "y" | conda create --name stag-mwc python=3
-conda activate stag-mwc
-
-# and add needed channels
-#
-# order matters - https://forum.biobakery.org/t/metaphlan3-installation-fails/350/2
-conda config --add channels defaults
-conda config --add channels bioconda
-conda config --add channels conda-forge
-
-# at this point we've cloned stag and need to run their setup process - conda is expected to be installed already
-# pipe yes into the install to silence prompts
-echo "y" | conda install -c bioconda -c conda-forge snakemake==5.5.4
-
 # clear out the old installation folders
 cd ..
 rm -rf kraken2
