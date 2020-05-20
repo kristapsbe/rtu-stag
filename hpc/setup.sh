@@ -14,6 +14,8 @@ git pull
 
 # create a conda env 
 # pipe yes to overwrite the env
+module activate conda
+conda init bash
 echo "y" | conda create --name stag-mwc python=3
 conda activate stag-mwc
 
