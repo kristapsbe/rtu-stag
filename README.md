@@ -11,31 +11,14 @@ base path in config files that are in the configs folder should be updated to th
 
 and 
 
-./setup.core.sh
+./setup.sh
 
 should be ran
 
-Taxonomic classification can then be executed by going to the local folder and running
+Classification can then be executed by going to the local folder and running
 
-./setup.taxon.sh && ./build.taxon.sh && ./run.taxon.sh
+./run.sh
 
 Note that pulling the taxonomic database takes an age and a half (ran for a full night for me) and the classification, while running pretty quickly, eats up up to 44 gigs of ram
 
-The functional classification as such isn't really there at the moment (only antibiotic resitomes get classified atm) it can then be executed by going to the local folder and running
-
-./setup.func.sh && ./build.func.sh && ./run.func.sh
-
-This has a pretty small memory footprint (up to 2 gigs) and is pretty quick to run
-
-Once the script's been run for the first time subsequent runs require only 
-
-./build.taxon.sh && ./run.taxon.sh
-
-or 
-
-./build.func.sh && ./run.func.sh
-
-to be executed
-
-
-Note! there is cleanup code after kraken to keep the taxonomic databases from eating up the whole hard drive, but there's no cleanup code after stag atm (means that each run creates 3 copies of the sample)
+IMPORTANT - the repo expects to be located in the home dir at the moment

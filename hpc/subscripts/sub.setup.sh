@@ -1,18 +1,37 @@
 #!/bin/bash
-# the goal of this script is to set up the databases and tools
-# that we'll be using for functional classification
-# 
-# https://github.com/conda/conda/issues/7980
-source ~/anaconda3/etc/profile.d/conda.sh
+#PBS -N setup_stag
+#PBS -l nodes=1:ppn=8,pmem=6g
+#PBS -l walltime=16:00:00
+#PBS -q long
+#PBS -j oe
+
+# how many threads do we have?
+threads=8
+module activate conda
 conda activate stag-mwc
+
+# set up the kraken2 database that we'll be matching our taxons agains
+mkdir -p databases/taxon_databases
+cd databases/taxon_databases
+../../kraken2/kraken2-build --use-ftp --download-taxonomy --db kraken_taxon --threads $threads
+../../kraken2/kraken2-build --use-ftp --no-masking --download-library archaea --db kraken_taxon --threads $threads
+../../kraken2/kraken2-build --use-ftp --no-masking --download-library bacteria --db kraken_taxon --threads $threads
+../../kraken2/kraken2-build --use-ftp --no-masking --download-library fungi --db kraken_taxon --threads $threads
+../../kraken2/kraken2-build --build --db kraken_taxon --threads $threads
+rm -rf kraken_taxon/library # get rid of the 4 gig library source files
+# set up the refence database that we'll be using to filter the reads (note that it's the GRCh38 reference)
+mkdir human_reference
+mv kraken_taxon/taxonomy human_reference/taxonomy # this takes up around 30 gigs - if we can avoid downloading it again we should
+../../kraken2/kraken2-build --use-ftp --no-masking --download-library human --db human_reference --threads $threads
+../../kraken2/kraken2-build --build --db human_reference --threads $threads
+rm -rf human_reference/library # get rid of the 76 gig taxonomy library files
+rm -rf human_reference/taxonomy # get rid of the 30 gig taxonomy source files
+
 # 09/05/2020 => metaphlan2 seems to be broken due to the database repo being set to private
 echo "y" | conda install groot==0.8.4 bbmap==38.68 metaphlan==3.0
 
 # move back to the base dir
 cd ../..
-rm -rf process/process_func_db # clear out the old database stag setup in case we've changed something
-rm -rf databases/func_databases # get rid of the functional classification databases before recreating them
-
 # set up the new stag instance that we'll be using
 mkdir -p process/process_func_db
 cp -r stag-mwc process/process_func_db/stag-mwc
@@ -24,7 +43,7 @@ mkdir input
 touch input/1_1.fq.gz
 touch input/1_2.fq.gz
 # build up the databases using stag
-snakemake create_groot_index --cores 12
+snakemake create_groot_index --cores $threads
 # set up metaphlan
 metaphlan --install
 # humann2 is being needlesly annoying due to dependency conflicts
