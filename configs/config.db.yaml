@@ -14,7 +14,7 @@
 #########################
 # Run configuration
 #########################
-base_path: "/mnt/c/University/" # change this to your download dir
+base_path: "~/University/" # change this to your download dir
 inputdir: "input"
 input_fn_pattern: "{sample}_{readpair}.fq.gz" 
 outdir: "output_dir"
