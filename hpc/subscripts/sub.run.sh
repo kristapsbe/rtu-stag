@@ -11,8 +11,7 @@ module load conda
 conda init bash
 conda activate stag-mwc
 
-trimmed=$(echo $0 | grep -o '[0-9]\+_[0-9]\+\.fq\.gz')
-sample=$(echo $0 | grep -o '[0-9]\+_[0-9]\+\.fq\.gz' | grep -o '[0-9]\+_' | grep -o '[0-9]\+')
+sample=$0
 f="/scratch/kristaps_$sample"
 
 # we need to move to the scratch dir to keep us from nuking their network infrastructure
@@ -24,7 +23,9 @@ cp -r ~/databases $f
 cp -r ~/stag-mwc $f
 cp ~/rtu-stag/configs/config.hpc.yaml "$f/stag-mwc/config.yaml" # changing the name to the default simplifies running
 mkdir "$f/stag-mwc/input"
-cp $0 "$f/stag-mwc/input/$trimmed"
+for fname in ~/rtu-stag/samples/*_$sample_*.fq.gz; do # move both sample files
+    trimmed=$(echo $fname | grep -o '[0-9]\+_[0-9]\+\.fq\.gz')
+    cp $fname "$f/stag-mwc/input/$trimmed"
 cp -r ~/kraken2 $f
 
 cd "$f/stag-mwc"

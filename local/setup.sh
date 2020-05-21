@@ -4,7 +4,7 @@
 # how many threads do we have?
 threads=12
 # https://github.com/conda/conda/issues/7980
-source ~/anaconda3/etc/profile.d/conda.sh
+source /etc/profile.d/conda.sh
 
 # clear out the old installation folders
 cd ../..
@@ -37,6 +37,8 @@ echo "y" | conda install -c bioconda -c conda-forge snakemake==5.5.4
 # clear out the old installation folders
 cd ..
 rm -rf kraken2
+
+echo pwd
 
 # we need to download and compile kraken2 to avoid using the segfaulting conda version
 #

@@ -4,6 +4,8 @@
 #
 # how many threads do we have?
 threads=12
+# https://github.com/conda/conda/issues/7980
+source /etc/profile.d/conda.sh
 
 # move back to the base folder
 cd ../..

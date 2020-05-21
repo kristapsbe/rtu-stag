@@ -12,3 +12,7 @@ the issue with humann2 is that it requires python2 (and, as a result, is incompa
 
 bowtie2 uses less than 2 gigs of ram
 diamond running as part of the humann2 call eats around 15 gigs of ram (may have used more at some point, but was able to fit within a total of 64 gigs - finished during the night)
+
+NB - the conda location and thread cound has to be updated when running the scripts locally
+
+TODO: make notes on what a bare linux install needs to have added for this to run (it's atleast build-essential / sudo dnf install make automake gcc gcc-c++ kernel-devel)
