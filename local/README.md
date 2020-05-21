@@ -1,3 +1,5 @@
+The local scripts expect to be cloned into ~/University/
+
 Scripts for setting up and processing samples on a local environment
 
 the taxonomic setup script took a full night to run (the main bottleneck in its runtime is network speed though as it needs to download around 110 gigs of data) - takes around an hour to run with a stable 200 mb/s connection
