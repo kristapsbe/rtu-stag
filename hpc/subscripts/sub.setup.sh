@@ -11,6 +11,9 @@ threads=8
 # create a conda env 
 # pipe yes to overwrite the env
 module load conda
+# a bit of a stupid solution - but if it works it works
+source /opt/exp_soft/conda/anaconda3/etc/profile.d/conda.sh
+
 conda init bash
 echo "y" | conda create --name stag-mwc python=3
 conda activate stag-mwc
@@ -30,16 +33,16 @@ echo "y" | conda install -c bioconda -c conda-forge snakemake==5.5.4
 # set up the kraken2 database that we'll be matching our taxons agains
 mkdir -p databases/taxon_databases
 cd databases/taxon_databases
-../../kraken2/kraken2-build --use-ftp --download-taxonomy --db kraken_taxon --threads $threads
-../../kraken2/kraken2-build --use-ftp --no-masking --download-library archaea --db kraken_taxon --threads $threads
-../../kraken2/kraken2-build --use-ftp --no-masking --download-library bacteria --db kraken_taxon --threads $threads
-../../kraken2/kraken2-build --use-ftp --no-masking --download-library fungi --db kraken_taxon --threads $threads
+../../kraken2/kraken2-build --download-taxonomy --db kraken_taxon --threads $threads --use-ftp  # use ftp gets ignored if it's at the beginning (?)
+../../kraken2/kraken2-build --download-library archaea --db kraken_taxon --threads $threads --use-ftp --no-masking
+../../kraken2/kraken2-build --download-library bacteria --db kraken_taxon --threads $threads --use-ftp --no-masking
+../../kraken2/kraken2-build --download-library fungi --db kraken_taxon --threads $threads --use-ftp --no-masking
 ../../kraken2/kraken2-build --build --db kraken_taxon --threads $threads
 rm -rf kraken_taxon/library # get rid of the 4 gig library source files
 # set up the refence database that we'll be using to filter the reads (note that it's the GRCh38 reference)
 mkdir human_reference
 mv kraken_taxon/taxonomy human_reference/taxonomy # this takes up around 30 gigs - if we can avoid downloading it again we should
-../../kraken2/kraken2-build --use-ftp --no-masking --download-library human --db human_reference --threads $threads
+../../kraken2/kraken2-build --download-library human --db human_reference --threads $threads --use-ftp --no-masking
 ../../kraken2/kraken2-build --build --db human_reference --threads $threads
 rm -rf human_reference/library # get rid of the 76 gig taxonomy library files
 rm -rf human_reference/taxonomy # get rid of the 30 gig taxonomy source files
