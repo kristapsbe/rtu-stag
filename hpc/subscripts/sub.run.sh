@@ -21,12 +21,8 @@ f="/scratch/kristaps_$sample"
 cd "/scratch"
 rm -rf "$f" # clear out the folder in case this sample has already been on this node
 mkdir "$f"
-# copy the database folder over
-cp -r "${home_path}/databases" "$f"
-
-ls "${home_path}/databases"
-ls "$f"
-ls "$f/databases"
+# copy the database folder over - just use scratch instead of using the sample dir
+cp -r "${home_path}/databases" "/scratch"
 
 cp -r "${home_path}/stag-mwc" "$f"
 cp "${home_path}/rtu-stag/configs/config.hpc.yaml" "$f/stag-mwc/config.yaml" # changing the name to the default simplifies running
@@ -81,7 +77,4 @@ rm -rf "$f/stag-mwc/output_dir/humann2/1_humann2_temp"
 # save the output folder and free up the space taken
 datestamp=$(date -d "today" +"%Y%m%d%H%M")
 mv "$f/stag-mwc/output_dir" "${home_path}/outputs/output_dir_${sample}_${datestamp}"
-rm -rf $f
-
-cd /scratch
-rm -rf $f # clean up after myself
+rm -rf "$f" # clean up after myself
