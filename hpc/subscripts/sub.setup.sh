@@ -15,20 +15,7 @@ module load conda
 source /opt/exp_soft/conda/anaconda3/etc/profile.d/conda.sh
 
 conda init bash
-echo "y" | conda create --name stag-mwc python=3
 conda activate stag-mwc
-
-# and add needed channels
-#
-# order matters - https://forum.biobakery.org/t/metaphlan3-installation-fails/350/2
-conda config --add channels defaults
-conda config --add channels bioconda
-conda config --add channels conda-forge
-
-# at this point we've cloned stag and need to run their setup process - conda is expected to be installed already
-# pipe yes into the install to silence prompts
-echo "y" | conda install -c bioconda -c conda-forge snakemake==5.5.4
-
 
 # set up the kraken2 database that we'll be matching our taxons agains
 mkdir -p databases/taxon_databases
@@ -47,9 +34,6 @@ mv kraken_taxon/taxonomy human_reference/taxonomy # this takes up around 30 gigs
 rm -rf human_reference/library # get rid of the 76 gig taxonomy library files
 rm -rf human_reference/taxonomy # get rid of the 30 gig taxonomy source files
 
-# 09/05/2020 => metaphlan2 seems to be broken due to the database repo being set to private
-echo "y" | conda install groot==0.8.4 bbmap==38.68 metaphlan==3.0
-
 # move back to the base dir
 cd ../..
 # set up the new stag instance that we'll be using
@@ -66,20 +50,8 @@ touch input/1_2.fq.gz
 snakemake create_groot_index --cores $threads
 # set up metaphlan
 metaphlan --install
-# humann2 is being needlesly annoying due to dependency conflicts
-# will just rip the commands out of stag and run it as is
-# snakemake download_humann2_databases --cores 12
-#
-# setup a conda env running python 2
-# pipe yes to overwrite the env
-echo "y" | conda create --name humann2 python=2
+
 conda activate humann2
-# and add needed channels
-conda config --add channels defaults
-conda config --add channels bioconda
-conda config --add channels conda-forge
-# pipe yes into the install to silence prompts
-echo "y" | conda install -c bioconda -c conda-forge humann2==2.8.1 
 # download_humann2_databases
 cd ../../.. # path out of the stag copy and move back to the base dir
 humann2_databases --download chocophlan full databases/func_databases/humann2
