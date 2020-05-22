@@ -13,8 +13,15 @@ source /opt/exp_soft/conda/anaconda3/etc/profile.d/conda.sh
 conda init bash
 conda activate stag-mwc
 
-sample=$0
+echo $0
+echo $1
+echo $2
+echo $3
+
+sample="$1" # that should contain the sample nums
 f="/scratch/kristaps_$sample"
+
+echo $f
 
 # we need to move to the scratch dir to keep us from nuking their network infrastructure
 cd /scratch
