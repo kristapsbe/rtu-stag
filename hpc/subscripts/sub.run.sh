@@ -31,12 +31,14 @@ ls "$f/databases"
 cp -r "${home_path}/stag-mwc" "$f"
 cp "${home_path}/rtu-stag/configs/config.hpc.yaml" "$f/stag-mwc/config.yaml" # changing the name to the default simplifies running
 mkdir "$f/stag-mwc/input"
-for fname in "${home_path}/rtu-stag/samples/*_${sample}_*.fq.gz"; do # move both sample files
+for fname in ${home_path}/rtu-stag/samples/*_${sample}_*.fq.gz; do # move both sample files
     trimmed=$(echo $fname | grep -o '[0-9]\+_[0-9]\+\.fq\.gz')
 
     echo "$trimmed"
 
     cp $fname "$f/stag-mwc/input/$trimmed"
+
+    echo "$f/stag-mwc/input/$trimmed"
 done
 
 cp -r "${home_path}/kraken2" "$f"
