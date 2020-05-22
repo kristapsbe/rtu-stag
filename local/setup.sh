@@ -85,7 +85,7 @@ rm -rf databases/func_databases # get rid of the functional classification datab
 # set up the new stag instance that we'll be using
 mkdir -p process/process_func_db
 cp -r stag-mwc process/process_func_db/stag-mwc
-cp rtu-stag/configs/config.db.yaml process/process_func_db/stag-mwc/config.yaml # changing the name to the default simplifies running
+cp rtu-stag/configs/config.db.local.yaml process/process_func_db/stag-mwc/config.yaml # changing the name to the default simplifies running
 
 # making fake input files to make stag happy (it throws errors without a sample to work with)
 cd process/process_func_db/stag-mwc
