@@ -8,6 +8,8 @@
 # how many threads do we have?
 threads=8
 module load conda
+# a bit of a stupid solution - but if it works it works
+source /opt/exp_soft/conda/anaconda3/etc/profile.d/conda.sh
 conda init bash
 conda activate stag-mwc
 
