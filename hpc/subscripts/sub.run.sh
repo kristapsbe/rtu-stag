@@ -28,6 +28,8 @@ mkdir "$f/stag-mwc/input"
 for fname in ~/rtu-stag/samples/*_$sample_*.fq.gz; do # move both sample files
     trimmed=$(echo $fname | grep -o '[0-9]\+_[0-9]\+\.fq\.gz')
     cp $fname "$f/stag-mwc/input/$trimmed"
+done
+
 cp -r ~/kraken2 $f
 
 cd "$f/stag-mwc"
