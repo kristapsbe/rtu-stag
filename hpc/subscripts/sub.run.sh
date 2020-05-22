@@ -13,31 +13,29 @@ source /opt/exp_soft/conda/anaconda3/etc/profile.d/conda.sh
 conda init bash
 conda activate stag-mwc
 
-echo $0
-echo $1
-echo $2
-echo $3
-
 sample="$1" # that should contain the sample nums
 f="/scratch/kristaps_$sample"
 
-echo $f
-
 # we need to move to the scratch dir to keep us from nuking their network infrastructure
-cd /scratch
-rm -rf $f # clear out the folder in case this sample has already been on this node
-mkdir $f
+cd "/scratch"
+rm -rf "$f" # clear out the folder in case this sample has already been on this node
+mkdir "$f"
 # copy the database folder over
-cp -r ~/databases $f
-cp -r ~/stag-mwc $f
-cp ~/rtu-stag/configs/config.hpc.yaml "$f/stag-mwc/config.yaml" # changing the name to the default simplifies running
+cp -r "~/databases" "$f"
+
+ls "~/databases"
+ls "$f"
+ls "$f/databases"
+
+cp -r "~/stag-mwc" "$f"
+cp "~/rtu-stag/configs/config.hpc.yaml" "$f/stag-mwc/config.yaml" # changing the name to the default simplifies running
 mkdir "$f/stag-mwc/input"
-for fname in ~/rtu-stag/samples/*_$sample_*.fq.gz; do # move both sample files
+for fname in "~/rtu-stag/samples/*_$sample_*.fq.gz"; do # move both sample files
     trimmed=$(echo $fname | grep -o '[0-9]\+_[0-9]\+\.fq\.gz')
     cp $fname "$f/stag-mwc/input/$trimmed"
 done
 
-cp -r ~/kraken2 $f
+cp -r "~/kraken2" "$f"
 
 cd "$f/stag-mwc"
 snakemake --use-conda --cores $threads
@@ -45,8 +43,8 @@ cd ../.. # move back into the base dir
 # run the humann2 stuff outside of stag - just ripping the whole thing to deal with dep conflicts between humann2 and snakemake
 humann2_dir="$f/stag-mwc/output_dir/humann2/"
 metaphlan_dir="$f/stag-mwc/output_dir/metaphlan/"
-mkdir -p $humann2_dir
-mkdir -p $metaphlan_dir
+mkdir -p "$humann2_dir"
+mkdir -p "$metaphlan_dir"
 # at this point we know that host_removal samples exist due to them being made for groot
 echo "#SampleID\t$sample" > mpa2_table-v2.7.7.txt
 # metaphlan had to run before humann2
