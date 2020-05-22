@@ -14,6 +14,7 @@ conda init bash
 conda activate stag-mwc
 
 sample="$1" # that should contain the sample nums
+home_path="$2"
 f="/scratch/kristaps_$sample"
 
 # we need to move to the scratch dir to keep us from nuking their network infrastructure
@@ -21,21 +22,21 @@ cd "/scratch"
 rm -rf "$f" # clear out the folder in case this sample has already been on this node
 mkdir "$f"
 # copy the database folder over
-cp -r "~/databases" "$f"
+cp -r "${home_path}/databases" "$f"
 
-ls "~/databases"
+ls "${home_path}/databases"
 ls "$f"
 ls "$f/databases"
 
-cp -r "~/stag-mwc" "$f"
-cp "~/rtu-stag/configs/config.hpc.yaml" "$f/stag-mwc/config.yaml" # changing the name to the default simplifies running
+cp -r "${home_path}/stag-mwc" "$f"
+cp "${home_path}/rtu-stag/configs/config.hpc.yaml" "$f/stag-mwc/config.yaml" # changing the name to the default simplifies running
 mkdir "$f/stag-mwc/input"
-for fname in "~/rtu-stag/samples/*_$sample_*.fq.gz"; do # move both sample files
+for fname in "${home_path}/rtu-stag/samples/*_$sample_*.fq.gz"; do # move both sample files
     trimmed=$(echo $fname | grep -o '[0-9]\+_[0-9]\+\.fq\.gz')
     cp $fname "$f/stag-mwc/input/$trimmed"
 done
 
-cp -r "~/kraken2" "$f"
+cp -r "${home_path}/kraken2" "$f"
 
 cd "$f/stag-mwc"
 snakemake --use-conda --cores $threads
@@ -74,7 +75,7 @@ rm "$f/stag-mwc/output_dir/humann2/concat_input_reads.fq.gz"
 rm -rf "$f/stag-mwc/output_dir/humann2/1_humann2_temp"
 # save the output folder and free up the space taken
 datestamp=$(date -d "today" +"%Y%m%d%H%M")
-mv "$f/stag-mwc/output_dir" "~/outputs/output_dir_${sample}_${datestamp}"
+mv "$f/stag-mwc/output_dir" "${home_path}/outputs/output_dir_${sample}_${datestamp}"
 rm -rf $f
 
 cd /scratch
