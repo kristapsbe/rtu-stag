@@ -64,11 +64,11 @@ humann2_join_tables --input $humann2_dir --output "${humann2_dir}all_samples.hum
 humann2_join_tables --input $humann2_dir --output "${humann2_dir}all_samples.humann2_pathabundance.tsv" --file_name pathcoverage
 humann2_join_tables --input $humann2_dir --output "${humann2_dir}all_samples.humann2_pathcoverage.tsv" --file_name pathabundance_relab
 # cleanup after finishing    
-rm -rf "$f/stag-mwc/output_dir/fastp/"
-rm -rf "$f/stag-mwc/output_dir/host_removal/"
-rm -rf "$f/stag-mwc/output_dir/logs/"
-rm "$f/stag-mwc/output_dir/humann2/concat_input_reads.fq.gz"
-rm -rf "$f/stag-mwc/output_dir/humann2/1_humann2_temp"
+#rm -rf "$f/stag-mwc/output_dir/fastp/"
+#rm -rf "$f/stag-mwc/output_dir/host_removal/"
+#rm -rf "$f/stag-mwc/output_dir/logs/"
+#rm "$f/stag-mwc/output_dir/humann2/concat_input_reads.fq.gz"
+#rm -rf "$f/stag-mwc/output_dir/humann2/1_humann2_temp"
 # save the output folder and free up the space taken
 datestamp=$(date -d "today" +"%Y%m%d%H%M")
 mv "$f/stag-mwc/output_dir" "${home_path}/outputs/output_dir_${sample}_${datestamp}"
