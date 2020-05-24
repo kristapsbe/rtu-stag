@@ -22,7 +22,9 @@ cd "/scratch"
 rm -rf "$f" # clear out the folder in case this sample has already been on this node
 mkdir "$f"
 # copy the database folder over - just use scratch instead of using the sample dir
-cp -r "${home_path}/databases" "/scratch"
+if [ ! -d "/scratch/databases" ]; then # NB: thjs will cause issues if we ever want to update the databases
+  cp -r "${home_path}/databases" "/scratch"
+fi
 
 cp -r "${home_path}/stag-mwc" "$f"
 cp "${home_path}/rtu-stag/configs/config.hpc.yaml" "$f/stag-mwc/config.yaml" # changing the name to the default simplifies running
