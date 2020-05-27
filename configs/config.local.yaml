@@ -12,7 +12,7 @@
 #########################
 # Run configuration
 #########################
-base_path: "~/University/" # change this to your download dir
+base_path: "/home/kristaps/University/" # change this to your download dir
 inputdir: "input"
 input_fn_pattern: "{sample}_{readpair}.fq.gz"
 outdir: "output_dir"
@@ -90,7 +90,7 @@ kraken2:
     filter_bracken:          # Arguments to filter_bracken_out.py to include/exclude certain taxa
         include: ""
         exclude: "--exclude 9605 9606"  # Taxid 9605 and 9606 are (G) Homo and (S) Homo sapiens
-    kraken2_path: "kraken2"        # enable the ability to specify the location of Kraken2 due to the conda version throwing segfaults
+    kraken2_path: "kraken2/"        # enable the ability to specify the location of Kraken2 due to the conda version throwing segfaults
 
 metaphlan2:
     bt2_db_dir: "databases/func_databases/metaphlan2/db_v20"           # [Required] Path to MetaPhlAn2 database dir

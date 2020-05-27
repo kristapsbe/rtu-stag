@@ -4,7 +4,9 @@
 # how many threads do we have?
 threads=12
 # https://github.com/conda/conda/issues/7980
-source /etc/profile.d/conda.sh
+# these are the two default locations I've encountered
+#source /etc/profile.d/conda.sh 
+source ~/anaconda3/etc/profile.d/conda.sh
 
 # clear out the old installation folders
 cd ../..
@@ -60,10 +62,10 @@ rm -rf databases/taxon_databases
 # set up the kraken2 database that we'll be matching our taxons agains
 mkdir -p databases/taxon_databases
 cd databases/taxon_databases
-../../kraken2/kraken2-build --use-ftp --download-taxonomy --db kraken_taxon --threads $threads
-../../kraken2/kraken2-build --use-ftp --no-masking --download-library archaea --db kraken_taxon --threads $threads
-../../kraken2/kraken2-build --use-ftp --no-masking --download-library bacteria --db kraken_taxon --threads $threads
-../../kraken2/kraken2-build --use-ftp --no-masking --download-library fungi --db kraken_taxon --threads $threads
+../../kraken2/kraken2-build --download-taxonomy --db kraken_taxon --threads $threads --use-ftp  # use ftp gets ignored if it's at the beginning (?)
+../../kraken2/kraken2-build --download-library archaea --db kraken_taxon --threads $threads --use-ftp --no-masking
+../../kraken2/kraken2-build --download-library bacteria --db kraken_taxon --threads $threads --use-ftp --no-masking
+../../kraken2/kraken2-build --download-library fungi --db kraken_taxon --threads $threads --use-ftp --no-masking
 ../../kraken2/kraken2-build --build --db kraken_taxon --threads $threads
 rm -rf kraken_taxon/library # get rid of the 4 gig library source files
 # set up the refence database that we'll be using to filter the reads (note that it's the GRCh38 reference)
