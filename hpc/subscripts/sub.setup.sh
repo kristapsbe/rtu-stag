@@ -29,6 +29,7 @@ rm -rf kraken_taxon/library # get rid of the 4 gig library source files
 # set up the refence database that we'll be using to filter the reads (note that it's the GRCh38 reference)
 mkdir human_reference
 mv kraken_taxon/taxonomy human_reference/taxonomy # this takes up around 30 gigs - if we can avoid downloading it again we should
+#../../kraken2/kraken2-build --download-taxonomy --db human_reference --threads $threads --use-ftp
 ../../kraken2/kraken2-build --download-library human --db human_reference --threads $threads --use-ftp --no-masking
 ../../kraken2/kraken2-build --build --db human_reference --threads $threads
 rm -rf human_reference/library # get rid of the 76 gig taxonomy library files
