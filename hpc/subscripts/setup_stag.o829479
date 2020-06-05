@@ -1,0 +1,55 @@
+no change     /opt/exp_soft/conda/anaconda3/condabin/conda
+no change     /opt/exp_soft/conda/anaconda3/bin/conda
+no change     /opt/exp_soft/conda/anaconda3/bin/conda-env
+no change     /opt/exp_soft/conda/anaconda3/bin/activate
+no change     /opt/exp_soft/conda/anaconda3/bin/deactivate
+no change     /opt/exp_soft/conda/anaconda3/etc/profile.d/conda.sh
+no change     /opt/exp_soft/conda/anaconda3/etc/fish/conf.d/conda.fish
+no change     /opt/exp_soft/conda/anaconda3/shell/condabin/Conda.psm1
+no change     /opt/exp_soft/conda/anaconda3/shell/condabin/conda-hook.ps1
+no change     /opt/exp_soft/conda/anaconda3/lib/python3.7/site-packages/xontrib/conda.xsh
+no change     /opt/exp_soft/conda/anaconda3/etc/profile.d/conda.csh
+no change     /home/kristaps01/.bashrc
+No action taken.
+Downloading nucleotide gb accession to taxon map... done.
+Downloading nucleotide wgs accession to taxon map.../var/spool/torque/mom_priv/jobs/829479.rudens.SC: line 24: ../../kraken2/kraken2-build: Stale file handle
+/var/spool/torque/mom_priv/jobs/829479.rudens.SC: line 25: ../../kraken2/kraken2-build: Stale file handle
+/var/spool/torque/mom_priv/jobs/829479.rudens.SC: line 26: ../../kraken2/kraken2-build: Stale file handle
+/var/spool/torque/mom_priv/jobs/829479.rudens.SC: line 27: ../../kraken2/kraken2-build: Stale file handle
+rm: cannot remove ‘kraken_taxon/library’: Stale file handle
+mkdir: cannot create directory ‘human_reference’: Stale file handle
+mv: failed to access ‘human_reference/taxonomy’: Stale file handle
+/var/spool/torque/mom_priv/jobs/829479.rudens.SC: line 32: ../../kraken2/kraken2-build: Stale file handle
+/var/spool/torque/mom_priv/jobs/829479.rudens.SC: line 33: ../../kraken2/kraken2-build: Stale file handle
+rm: cannot remove ‘human_reference/library’: Stale file handle
+rm: cannot remove ‘human_reference/taxonomy’: Stale file handle
+/var/spool/torque/mom_priv/jobs/829479.rudens.SC: line 38: cd: ../..: No such file or directory
+mkdir: cannot create directory ‘process’: Stale file handle
+cp: failed to access ‘process/process_func_db/stag-mwc’: Stale file handle
+cp: failed to access ‘process/process_func_db/stag-mwc/config.yaml’: Stale file handle
+/var/spool/torque/mom_priv/jobs/829479.rudens.SC: line 45: cd: process/process_func_db/stag-mwc: No such file or directory
+mkdir: cannot create directory ‘input’: Stale file handle
+touch: cannot touch ‘input/1_1.fq.gz’: Stale file handle
+touch: cannot touch ‘input/1_2.fq.gz’: Stale file handle
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+Error: no Snakefile found, tried Snakefile, snakefile, workflow/Snakefile, workflow/snakefile.
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory
+
+Downloading https://www.dropbox.com/sh/7qze7m7g9fe2xjg/AAA4XDP85WHon_eHvztxkamTa/file_list.txt?dl=1
+
+Warning: Unable to download https://www.dropbox.com/sh/7qze7m7g9fe2xjg/AAA4XDP85WHon_eHvztxkamTa/file_list.txt?dl=1
+Traceback (most recent call last):
+  File "/home/kristaps01/.conda/envs/stag-mwc/bin/metaphlan", line 10, in <module>
+    sys.exit(main())
+  File "/home/kristaps01/.conda/envs/stag-mwc/lib/python3.7/site-packages/metaphlan/metaphlan.py", line 916, in main
+    pars['index'] = check_and_install_database(pars['index'], pars['bowtie2db'], pars['bowtie2_build'], pars['nproc'], pars['force_download'])
+  File "/home/kristaps01/.conda/envs/stag-mwc/lib/python3.7/site-packages/metaphlan/__init__.py", line 271, in check_and_install_database
+    index = resolve_latest_database(bowtie2_db, ls_f['mpa_latest'], force_redownload_latest)
+UnboundLocalError: local variable 'ls_f' referenced before assignment
+Could not find conda environment: humann2
+You can list all discoverable environments with `conda info --envs`.
+
+/var/spool/torque/mom_priv/jobs/829479.rudens.SC: line 56: cd: ../../..: No such file or directory
+/var/spool/torque/mom_priv/jobs/829479.rudens.SC: line 57: humann2_databases: command not found
+/var/spool/torque/mom_priv/jobs/829479.rudens.SC: line 58: humann2_databases: command not found

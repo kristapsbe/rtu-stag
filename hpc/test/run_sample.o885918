@@ -1,0 +1,524 @@
+du: cannot read directory ‘/scratch/lost+found’: Permission denied
+16K	/scratch/lost+found
+564K	/scratch/kraken2
+588K	/scratch
+no change     /opt/exp_soft/conda/anaconda3/condabin/conda
+no change     /opt/exp_soft/conda/anaconda3/bin/conda
+no change     /opt/exp_soft/conda/anaconda3/bin/conda-env
+no change     /opt/exp_soft/conda/anaconda3/bin/activate
+no change     /opt/exp_soft/conda/anaconda3/bin/deactivate
+no change     /opt/exp_soft/conda/anaconda3/etc/profile.d/conda.sh
+no change     /opt/exp_soft/conda/anaconda3/etc/fish/conf.d/conda.fish
+no change     /opt/exp_soft/conda/anaconda3/shell/condabin/Conda.psm1
+no change     /opt/exp_soft/conda/anaconda3/shell/condabin/conda-hook.ps1
+no change     /opt/exp_soft/conda/anaconda3/lib/python3.7/site-packages/xontrib/conda.xsh
+no change     /opt/exp_soft/conda/anaconda3/etc/profile.d/conda.csh
+no change     /home/kristaps01/.bashrc
+No action taken.
+Building DAG of jobs...
+Creating conda environment envs/stag-mwc.yaml...
+Downloading remote packages.
+Environment for envs/stag-mwc.yaml created (location: .snakemake/conda/76156e0e)
+Using shell: /bin/bash
+Provided cores: 32
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	combine_kreports
+	1	create_kraken2_krona_plot
+	1	fastp
+	1	groot_align
+	1	groot_report
+	1	join_kraken2_mpa
+	1	kraken2
+	1	kraken2_area_plot
+	1	kraken_mpa_style
+	1	kreport2krona
+	1	multiqc
+	1	plot_proportion_host
+	1	preprocessing_summary
+	1	remove_host
+	15
+
+[Thu Jun  4 04:34:48 2020]
+rule fastp:
+    input: input/104_1.fq.gz, input/104_2.fq.gz
+    output: output_dir/fastp/104_1.fq.gz, output_dir/fastp/104_2.fq.gz, output_dir/logs/fastp/104.fastp.json, output_dir/logs/fastp/104.fastp.html
+    log: output_dir/logs/fastp/104.stdout.log, output_dir/logs/fastp/104.stderr.log
+    jobid: 1
+    wildcards: sample=104
+    threads: 4
+
+[33mJob counts:
+	count	jobs
+	1	fastp
+	1[0m
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+[Thu Jun  4 04:38:04 2020]
+Finished job 1.
+1 of 15 steps (7%) done
+
+[Thu Jun  4 04:38:04 2020]
+rule remove_host:
+    input: output_dir/fastp/104_1.fq.gz, output_dir/fastp/104_2.fq.gz
+    output: output_dir/host_removal/104_1.fq.gz, output_dir/host_removal/104_2.fq.gz, output_dir/host_removal/104.host_1.fq.gz, output_dir/host_removal/104.host_2.fq.gz, output_dir/host_removal/104.kraken, output_dir/host_removal/104.kreport
+    log: output_dir/logs/host_removal/104.kraken2.log
+    jobid: 2
+    wildcards: sample=104
+    threads: 8
+
+[33mJob counts:
+	count	jobs
+	1	remove_host
+	1[0m
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+Removing temporary output file output_dir/host_removal/104.kraken.
+Removing temporary output file output_dir/host_removal/104.kreport.
+[Thu Jun  4 04:44:56 2020]
+Finished job 2.
+2 of 15 steps (13%) done
+
+[Thu Jun  4 04:44:56 2020]
+rule groot_align:
+    input: output_dir/host_removal/104_1.fq.gz, output_dir/host_removal/104_2.fq.gz
+    output: output_dir/groot/104/104_1.size_window.fq.gz, output_dir/groot/104/104_2.size_window.fq.gz, output_dir/groot/104/104.groot_aligned.bam, output_dir/groot/104/groot-graphs
+    log: output_dir/logs/groot/104.reformat.log, output_dir/logs/groot/104.groot_align.log
+    jobid: 11
+    wildcards: sample=104
+    threads: 8
+
+
+[Thu Jun  4 04:44:56 2020]
+rule kraken2:
+    input: output_dir/host_removal/104_1.fq.gz, output_dir/host_removal/104_2.fq.gz
+    output: output_dir/kraken2/104.kraken, output_dir/kraken2/104.kreport
+    log: output_dir/logs/kraken2/104.kraken2.log
+    jobid: 5
+    wildcards: sample=104
+    threads: 4
+
+
+[Thu Jun  4 04:44:57 2020]
+localrule preprocessing_summary:
+    input: output_dir/logs/fastp/104.fastp.json, output_dir/logs/host_removal/104.kraken2.log
+    output: output_dir/preprocessing_read_counts.txt, output_dir/preprocessing_read_counts.pdf
+    log: output_dir/logs/preprocessing_summary.log
+    jobid: 4
+
+
+[Thu Jun  4 04:44:57 2020]
+localrule plot_proportion_host:
+    input: output_dir/logs/host_removal/104.kraken2.log
+    output: output_dir/host_removal/host_histogram.pdf, output_dir/host_removal/host_barplot.pdf, output_dir/host_removal/host_proportions.txt
+    log: output_dir/logs/host_removal/proportion_host.log
+    jobid: 3
+
+[33mJob counts:
+	count	jobs
+	1	kraken2
+	1[0m
+[33mJob counts:
+	count	jobs
+	1	plot_proportion_host
+	1[0m
+[33mJob counts:
+	count	jobs
+	1	groot_align
+	1[0m
+Activating conda environment: /scratch/kristaps_104/stag-mwc/.snakemake/conda/76156e0e
+[Thu Jun  4 04:44:58 2020]
+Finished job 4.
+3 of 15 steps (20%) done
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+[Thu Jun  4 04:44:59 2020]
+Finished job 3.
+4 of 15 steps (27%) done
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+Removing temporary output file output_dir/groot/104/104_1.size_window.fq.gz.
+Removing temporary output file output_dir/groot/104/104_2.size_window.fq.gz.
+[Thu Jun  4 04:52:06 2020]
+Finished job 11.
+5 of 15 steps (33%) done
+
+[Thu Jun  4 04:52:06 2020]
+localrule groot_report:
+    input: output_dir/groot/104/104.groot_aligned.bam
+    output: output_dir/groot/104/104.groot_report.txt, output_dir/groot/104/groot-plots
+    log: output_dir/logs/groot/104.groot_report.log
+    jobid: 12
+    wildcards: sample=104
+
+[33mJob counts:
+	count	jobs
+	1	groot_report
+	1[0m
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+[Thu Jun  4 04:52:09 2020]
+Finished job 12.
+6 of 15 steps (40%) done
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+[Thu Jun  4 04:59:58 2020]
+Finished job 5.
+7 of 15 steps (47%) done
+
+[Thu Jun  4 04:59:58 2020]
+localrule combine_kreports:
+    input: output_dir/kraken2/104.kreport
+    output: output_dir/kraken2/all_samples.kraken2.txt
+    log: output_dir/logs/kraken2/combined_kreport.log
+    jobid: 8
+
+
+[Thu Jun  4 04:59:58 2020]
+localrule kreport2krona:
+    input: output_dir/kraken2/104.kreport
+    output: output_dir/kraken2/104.krona
+    log: output_dir/logs/kraken2/104.kreport2krona.log
+    jobid: 14
+    wildcards: sample=104
+
+
+[Thu Jun  4 04:59:58 2020]
+rule kraken_mpa_style:
+    input: output_dir/kraken2/104.kreport
+    output: output_dir/kraken2/104.mpa_style.txt
+    log: output_dir/logs/kraken2/104.mpa_style.log
+    jobid: 6
+    wildcards: sample=104
+
+[33mJob counts:
+	count	jobs
+	1	kreport2krona
+	1[0m
+[33mJob counts:
+	count	jobs
+	1	combine_kreports
+	1[0m
+Activating conda environment: /scratch/kristaps_104/stag-mwc/.snakemake/conda/76156e0e
+[Thu Jun  4 04:59:59 2020]
+Finished job 6.
+8 of 15 steps (53%) done
+
+[Thu Jun  4 04:59:59 2020]
+localrule join_kraken2_mpa:
+    input: output_dir/kraken2/104.mpa_style.txt
+    output: output_dir/kraken2/all_samples.kraken2.mpa_style.txt
+    log: output_dir/logs/kraken2/join_kraken2_mpa_tables.log
+    jobid: 7
+
+Activating conda environment: /scratch/kristaps_104/stag-mwc/.snakemake/conda/76156e0e
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+[Thu Jun  4 05:00:00 2020]
+Finished job 8.
+9 of 15 steps (60%) done
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+[Thu Jun  4 05:00:00 2020]
+Finished job 14.
+10 of 15 steps (67%) done
+
+[Thu Jun  4 05:00:00 2020]
+localrule create_kraken2_krona_plot:
+    input: output_dir/kraken2/104.krona
+    output: output_dir/kraken2/all_samples.kraken2.krona.html
+    jobid: 9
+
+[Thu Jun  4 05:00:01 2020]
+Finished job 7.
+11 of 15 steps (73%) done
+
+[Thu Jun  4 05:00:01 2020]
+localrule kraken2_area_plot:
+    input: output_dir/kraken2/all_samples.kraken2.mpa_style.txt
+    output: output_dir/kraken2/area_plot.kraken2.pdf
+    log: output_dir/logs/kraken2/area_plot.kraken2.log
+    jobid: 10
+
+[33mJob counts:
+	count	jobs
+	1	create_kraken2_krona_plot
+	1[0m
+Activating conda environment: /scratch/kristaps_104/stag-mwc/.snakemake/conda/76156e0e
+Writing output_dir/kraken2/all_samples.kraken2.krona.html...
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+[Thu Jun  4 05:00:03 2020]
+Finished job 9.
+12 of 15 steps (80%) done
+[Thu Jun  4 05:00:03 2020]
+Finished job 10.
+13 of 15 steps (87%) done
+
+[Thu Jun  4 05:00:03 2020]
+rule multiqc:
+    input: output_dir/fastp/104_1.fq.gz, output_dir/fastp/104_2.fq.gz, output_dir/host_removal/104_1.fq.gz, output_dir/host_removal/104_2.fq.gz, output_dir/host_removal/host_proportions.txt, output_dir/preprocessing_read_counts.txt, output_dir/preprocessing_read_counts.pdf, output_dir/kraken2/104.kraken, output_dir/kraken2/104.kreport, output_dir/kraken2/104.mpa_style.txt, output_dir/kraken2/all_samples.kraken2.mpa_style.txt, output_dir/kraken2/all_samples.kraken2.txt, output_dir/kraken2/all_samples.kraken2.krona.html, output_dir/kraken2/area_plot.kraken2.pdf, output_dir/groot/104/104.groot_aligned.bam, output_dir/groot/104/104.groot_report.txt
+    output: output_dir/multiqc/multiqc_report.html
+    log: output_dir/logs/multiqc/multiqc.log
+    jobid: 13
+
+[33mJob counts:
+	count	jobs
+	1	multiqc
+	1[0m
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+[Thu Jun  4 05:00:08 2020]
+Finished job 13.
+14 of 15 steps (93%) done
+
+[Thu Jun  4 05:00:08 2020]
+localrule all:
+    input: output_dir/fastp/104_1.fq.gz, output_dir/fastp/104_2.fq.gz, output_dir/host_removal/104_1.fq.gz, output_dir/host_removal/104_2.fq.gz, output_dir/host_removal/host_proportions.txt, output_dir/preprocessing_read_counts.txt, output_dir/preprocessing_read_counts.pdf, output_dir/kraken2/104.kraken, output_dir/kraken2/104.kreport, output_dir/kraken2/104.mpa_style.txt, output_dir/kraken2/all_samples.kraken2.mpa_style.txt, output_dir/kraken2/all_samples.kraken2.txt, output_dir/kraken2/all_samples.kraken2.krona.html, output_dir/kraken2/area_plot.kraken2.pdf, output_dir/groot/104/104.groot_aligned.bam, output_dir/groot/104/104.groot_report.txt, output_dir/multiqc/multiqc_report.html
+    jobid: 0
+
+[Thu Jun  4 05:00:08 2020]
+Finished job 0.
+15 of 15 steps (100%) done
+Complete log: /scratch/kristaps_104/stag-mwc/.snakemake/log/2020-06-04T043253.871849.snakemake.log
+Building DAG of jobs...
+Unlocking working directory.
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+Building DAG of jobs...
+Creating report...
+Adding host_histogram.pdf (0.012 MB).
+Adding host_barplot.pdf (0.011 MB).
+Adding host_proportions.txt (2.9e-05 MB).
+Adding preprocessing_read_counts.txt (0.0001 MB).
+Adding preprocessing_read_counts.pdf (0.014 MB).
+Adding all_samples.kraken2.mpa_style.txt (0.53 MB).
+Adding all_samples.kraken2.txt (0.43 MB).
+Adding all_samples.kraken2.krona.html (0.82 MB).
+Adding area_plot.kraken2.pdf (0.38 MB).
+Adding multiqc_report.html (1.1 MB).
+Report created.
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+Found the following samples in inputdir using input filename pattern '{sample}_{readpair}.fq.gz':
+{'104'}
+============================================================
+          StaG Metagenomic Workflow Collaboration           
+                          StaG-mwc                          
+                         0.4.1-dev                          
+============================================================
+============================================================
+          StaG Metagenomic Workflow Collaboration           
+                          StaG-mwc                          
+                         0.4.1-dev                          
+
+              Workflow completed successfully               
+
+============================================================
+WARNING: The metagenome profile contains clades that represent multiple species merged into a single representant.
+An additional column listing the merged species is added to the MetaPhlAn output.
+Output files will be written to: /scratch/kristaps_104/stag-mwc/output_dir/humann2
+Decompressing gzipped file ...
+
+Found g__Prevotella.s__Prevotella_copri : 57.82% of mapped reads
+Found g__Faecalibacterium.s__Faecalibacterium_prausnitzii : 4.83% of mapped reads
+Found g__Megasphaera.s__Megasphaera_elsdenii : 4.48% of mapped reads
+Found g__Lachnospiraceae_unclassified.s__Eubacterium_rectale : 3.24% of mapped reads
+Found g__Roseburia.s__Roseburia_faecis : 3.12% of mapped reads
+Found g__Dorea.s__Dorea_longicatena : 2.29% of mapped reads
+Found g__Lactobacillus.s__Lactobacillus_ruminis : 2.29% of mapped reads
+Found g__Alistipes.s__Alistipes_putredinis : 2.28% of mapped reads
+Found g__Blautia.s__Ruminococcus_torques : 2.09% of mapped reads
+Found g__Bifidobacterium.s__Bifidobacterium_adolescentis : 1.88% of mapped reads
+Found g__Bacteroides.s__Bacteroides_coprophilus : 1.15% of mapped reads
+Found g__Fusicatenibacter.s__Fusicatenibacter_saccharivorans : 0.97% of mapped reads
+Found g__Bacteroides.s__Bacteroides_vulgatus : 0.94% of mapped reads
+Found g__Ruminococcus.s__Ruminococcus_bromii : 0.93% of mapped reads
+Found g__Bacteroides.s__Bacteroides_stercoris : 0.92% of mapped reads
+Found g__Bacteroides.s__Bacteroides_uniformis : 0.83% of mapped reads
+Found g__Coprococcus.s__Coprococcus_eutactus : 0.81% of mapped reads
+Found g__Eubacterium.s__Eubacterium_sp_CAG_251 : 0.80% of mapped reads
+Found g__Bacteroides.s__Bacteroides_ovatus : 0.76% of mapped reads
+Found g__Dorea.s__Dorea_formicigenerans : 0.50% of mapped reads
+Found g__Parabacteroides.s__Parabacteroides_merdae : 0.48% of mapped reads
+Found g__Bacteroides.s__Bacteroides_caccae : 0.46% of mapped reads
+Found g__Slackia.s__Slackia_isoflavoniconvertens : 0.45% of mapped reads
+Found g__Barnesiella.s__Barnesiella_intestinihominis : 0.41% of mapped reads
+Found g__Bifidobacterium.s__Bifidobacterium_longum : 0.40% of mapped reads
+Found g__Blautia.s__Blautia_obeum : 0.38% of mapped reads
+Found g__Roseburia.s__Roseburia_intestinalis : 0.38% of mapped reads
+Found g__Parabacteroides.s__Parabacteroides_distasonis : 0.38% of mapped reads
+Found g__Lachnospira.s__Lachnospira_pectinoschiza : 0.37% of mapped reads
+Found g__Ruminococcus.s__Ruminococcus_lactaris : 0.34% of mapped reads
+Found g__Eubacterium.s__Eubacterium_hallii : 0.28% of mapped reads
+Found g__Odoribacter.s__Odoribacter_splanchnicus : 0.27% of mapped reads
+Found g__Roseburia.s__Roseburia_inulinivorans : 0.24% of mapped reads
+Found g__Gemmiger.s__Gemmiger_formicilis : 0.23% of mapped reads
+Found g__Phascolarctobacterium.s__Phascolarctobacterium_sp_CAG_266 : 0.19% of mapped reads
+Found g__Eubacterium.s__Eubacterium_ventriosum : 0.19% of mapped reads
+Found g__Bacteroides.s__Bacteroides_sp_CAG_144 : 0.13% of mapped reads
+Found g__Faecalitalea.s__Faecalitalea_cylindroides : 0.13% of mapped reads
+Found g__Anaerostipes.s__Anaerostipes_hadrus : 0.12% of mapped reads
+Found g__Bacteroides.s__Bacteroides_thetaiotaomicron : 0.12% of mapped reads
+Found g__Alistipes.s__Alistipes_finegoldii : 0.12% of mapped reads
+Found g__Blautia.s__Blautia_wexlerae : 0.09% of mapped reads
+Found g__Flavonifractor.s__Flavonifractor_plautii : 0.09% of mapped reads
+Found g__Butyricimonas.s__Butyricimonas_virosa : 0.09% of mapped reads
+Found g__Coprococcus.s__Coprococcus_catus : 0.08% of mapped reads
+Found g__Agathobaculum.s__Agathobaculum_butyriciproducens : 0.08% of mapped reads
+Found g__Oscillibacter.s__Oscillibacter_sp_CAG_241 : 0.07% of mapped reads
+Found g__Allisonella.s__Allisonella_histaminiformans : 0.06% of mapped reads
+Found g__Alistipes.s__Alistipes_shahii : 0.05% of mapped reads
+Found g__Bacteroides.s__Bacteroides_xylanisolvens : 0.05% of mapped reads
+Found g__Paraprevotella.s__Paraprevotella_xylaniphila : 0.05% of mapped reads
+Found g__Blautia.s__Ruminococcus_gnavus : 0.03% of mapped reads
+Found g__Enorma.s__[Collinsella]_massiliensis : 0.03% of mapped reads
+Found g__Coprococcus.s__Coprococcus_comes : 0.02% of mapped reads
+Found g__Intestinibacter.s__Intestinibacter_bartlettii : 0.02% of mapped reads
+Found g__Finegoldia.s__Finegoldia_magna : 0.02% of mapped reads
+Found g__Butyricimonas.s__Butyricimonas_synergistica : 0.02% of mapped reads
+Found g__Streptococcus.s__Streptococcus_salivarius : 0.02% of mapped reads
+Found g__Roseburia.s__Roseburia_hominis : 0.02% of mapped reads
+Found g__Eubacterium.s__Eubacterium_eligens : 0.01% of mapped reads
+Found g__Ruminococcaceae_unclassified.s__Eubacterium_siraeum : 0.01% of mapped reads
+Found g__Eggerthella.s__Eggerthella_lenta : 0.01% of mapped reads
+Found g__Eubacterium.s__Eubacterium_sp_CAG_274 : 0.01% of mapped reads
+
+Total species selected from prescreen: 63
+
+Selected species explain 99.93% of predicted community composition
+
+
+Creating custom ChocoPhlAn database ........
+
+
+Running bowtie2-build ........
+
+
+Running bowtie2 ........
+
+Total bugs from nucleotide alignment: 43
+g__Bacteroides.s__Bacteroides_caccae: 177413 hits
+g__Bacteroides.s__Bacteroides_ovatus: 555276 hits
+g__Odoribacter.s__Odoribacter_splanchnicus: 76812 hits
+g__Bacteroides.s__Bacteroides_vulgatus: 505490 hits
+g__Bacteroides.s__Bacteroides_coprophilus: 1550399 hits
+g__Eubacterium.s__Eubacterium_eligens: 9154 hits
+g__Faecalibacterium.s__Faecalibacterium_prausnitzii: 1204591 hits
+g__Coprococcus.s__Coprococcus_eutactus: 65815 hits
+g__Alistipes.s__Alistipes_shahii: 66387 hits
+g__Roseburia.s__Roseburia_inulinivorans: 110810 hits
+g__Lactobacillus.s__Lactobacillus_ruminis: 311294 hits
+g__Blautia.s__Ruminococcus_gnavus: 28174 hits
+g__Coprococcus.s__Coprococcus_comes: 46781 hits
+g__Streptococcus.s__Streptococcus_salivarius: 5602 hits
+g__Parabacteroides.s__Parabacteroides_distasonis: 132740 hits
+g__Blautia.s__Ruminococcus_torques: 358618 hits
+g__Roseburia.s__Roseburia_hominis: 41974 hits
+g__Bifidobacterium.s__Bifidobacterium_adolescentis: 244314 hits
+g__Anaerostipes.s__Anaerostipes_hadrus: 28867 hits
+g__Eggerthella.s__Eggerthella_lenta: 3460 hits
+g__Ruminococcus.s__Ruminococcus_bromii: 114290 hits
+g__Alistipes.s__Alistipes_putredinis: 306291 hits
+g__Alistipes.s__Alistipes_finegoldii: 21528 hits
+g__Coprococcus.s__Coprococcus_catus: 39666 hits
+g__Roseburia.s__Roseburia_intestinalis: 166914 hits
+g__Megasphaera.s__Megasphaera_elsdenii: 643958 hits
+g__Bacteroides.s__Bacteroides_xylanisolvens: 132663 hits
+g__Ruminococcus.s__Ruminococcus_lactaris: 110221 hits
+g__Eubacterium.s__Eubacterium_ventriosum: 53698 hits
+g__Bacteroides.s__Bacteroides_thetaiotaomicron: 88790 hits
+g__Barnesiella.s__Barnesiella_intestinihominis: 112542 hits
+g__Prevotella.s__Prevotella_copri: 9876314 hits
+g__Butyricimonas.s__Butyricimonas_synergistica: 593 hits
+g__Bacteroides.s__Bacteroides_uniformis: 307297 hits
+g__Bifidobacterium.s__Bifidobacterium_longum: 91047 hits
+g__Paraprevotella.s__Paraprevotella_xylaniphila: 76184 hits
+g__Bacteroides.s__Bacteroides_stercoris: 214865 hits
+g__Finegoldia.s__Finegoldia_magna: 6327 hits
+g__Eubacterium.s__Eubacterium_hallii: 74594 hits
+g__Dorea.s__Dorea_longicatena: 435532 hits
+g__Flavonifractor.s__Flavonifractor_plautii: 24470 hits
+g__Dorea.s__Dorea_formicigenerans: 153272 hits
+g__Parabacteroides.s__Parabacteroides_merdae: 158090 hits
+
+Total gene families from nucleotide alignment: 97999
+
+Unaligned reads after nucleotide alignment: 57.6448059037 %
+
+
+Running diamond ........
+
+
+Aligning to reference database: uniref90_annotated.1.1.dmnd
+
+Total bugs after translated alignment: 44
+g__Bacteroides.s__Bacteroides_caccae: 177413 hits
+g__Bacteroides.s__Bacteroides_ovatus: 555276 hits
+g__Odoribacter.s__Odoribacter_splanchnicus: 76812 hits
+g__Bacteroides.s__Bacteroides_vulgatus: 505490 hits
+g__Bacteroides.s__Bacteroides_coprophilus: 1550399 hits
+g__Eubacterium.s__Eubacterium_eligens: 9154 hits
+g__Faecalibacterium.s__Faecalibacterium_prausnitzii: 1204591 hits
+g__Coprococcus.s__Coprococcus_eutactus: 65815 hits
+g__Alistipes.s__Alistipes_shahii: 66387 hits
+g__Roseburia.s__Roseburia_inulinivorans: 110810 hits
+g__Lactobacillus.s__Lactobacillus_ruminis: 311294 hits
+g__Blautia.s__Ruminococcus_gnavus: 28174 hits
+g__Coprococcus.s__Coprococcus_comes: 46781 hits
+g__Streptococcus.s__Streptococcus_salivarius: 5602 hits
+unclassified: 12113570 hits
+g__Parabacteroides.s__Parabacteroides_distasonis: 132740 hits
+g__Blautia.s__Ruminococcus_torques: 358618 hits
+g__Roseburia.s__Roseburia_hominis: 41974 hits
+g__Bifidobacterium.s__Bifidobacterium_adolescentis: 244314 hits
+g__Anaerostipes.s__Anaerostipes_hadrus: 28867 hits
+g__Eggerthella.s__Eggerthella_lenta: 3460 hits
+g__Ruminococcus.s__Ruminococcus_bromii: 114290 hits
+g__Alistipes.s__Alistipes_putredinis: 306291 hits
+g__Alistipes.s__Alistipes_finegoldii: 21528 hits
+g__Coprococcus.s__Coprococcus_catus: 39666 hits
+g__Roseburia.s__Roseburia_intestinalis: 166914 hits
+g__Megasphaera.s__Megasphaera_elsdenii: 643958 hits
+g__Bacteroides.s__Bacteroides_xylanisolvens: 132663 hits
+g__Ruminococcus.s__Ruminococcus_lactaris: 110221 hits
+g__Eubacterium.s__Eubacterium_ventriosum: 53698 hits
+g__Bacteroides.s__Bacteroides_thetaiotaomicron: 88790 hits
+g__Barnesiella.s__Barnesiella_intestinihominis: 112542 hits
+g__Prevotella.s__Prevotella_copri: 9876314 hits
+g__Butyricimonas.s__Butyricimonas_synergistica: 593 hits
+g__Bacteroides.s__Bacteroides_uniformis: 307297 hits
+g__Bifidobacterium.s__Bifidobacterium_longum: 91047 hits
+g__Paraprevotella.s__Paraprevotella_xylaniphila: 76184 hits
+g__Bacteroides.s__Bacteroides_stercoris: 214865 hits
+g__Finegoldia.s__Finegoldia_magna: 6327 hits
+g__Eubacterium.s__Eubacterium_hallii: 74594 hits
+g__Dorea.s__Dorea_longicatena: 435532 hits
+g__Flavonifractor.s__Flavonifractor_plautii: 24470 hits
+g__Dorea.s__Dorea_formicigenerans: 153272 hits
+g__Parabacteroides.s__Parabacteroides_merdae: 158090 hits
+
+Total gene families after translated alignment: 239920
+
+Unaligned reads after translated alignment: 42.0868768723 %
+
+
+Computing gene families ...
+
+Computing pathways abundance and coverage ...
+
+Output files created: 
+/scratch/kristaps_104/stag-mwc/output_dir/humann2/104_genefamilies.tsv
+/scratch/kristaps_104/stag-mwc/output_dir/humann2/104_pathabundance.tsv
+/scratch/kristaps_104/stag-mwc/output_dir/humann2/104_pathcoverage.tsv
+
+Loading table from: /scratch/kristaps_104/stag-mwc/output_dir/humann2/104_genefamilies.tsv
+  Treating /scratch/kristaps_104/stag-mwc/output_dir/humann2/104_genefamilies.tsv as stratified output, e.g. ['UniRef90_unknown', 'g__Prevotella.s__Prevotella_copri']
+Loading table from: /scratch/kristaps_104/stag-mwc/output_dir/humann2/104_pathabundance.tsv
+  Treating /scratch/kristaps_104/stag-mwc/output_dir/humann2/104_pathabundance.tsv as stratified output, e.g. ['UNINTEGRATED', 'g__Prevotella.s__Prevotella_copri']
+Gene table created: /scratch/kristaps_104/stag-mwc/output_dir/humann2/all_samples.humann2_genefamilies.tsv
+Gene table created: /scratch/kristaps_104/stag-mwc/output_dir/humann2/all_samples.humann2_pathabundance.tsv
+Gene table created: /scratch/kristaps_104/stag-mwc/output_dir/humann2/all_samples.humann2_pathcoverage.tsv
+rm: cannot remove ‘/scratch/kristaps_104/stag-mwc/output_dir/kraken2/*.kraken’: No such file or directory

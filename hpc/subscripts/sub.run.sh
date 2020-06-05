@@ -22,6 +22,7 @@ cd "/scratch"
 rm -rf "$f" # clear out the folder in case this sample has already been on this node
 mkdir "$f"
 # copy the database folder over - just use scratch instead of using the sample dir
+rm -rf "/scratch/databases" # just straight-up deleting the db for the time being to swap them out cleanly
 if [ ! -d "/scratch/databases" ]; then # NB: thjs will cause issues if we ever want to update the databases
   cp -r "${home_path}/databases" "/scratch"
 fi
