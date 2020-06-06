@@ -22,3 +22,5 @@ Classification can then be executed by going to the local folder and running
 Note that pulling the taxonomic database takes an age and a half (ran for a full night for me) and the classification, while running pretty quickly, eats up up to 44 gigs of ram
 
 IMPORTANT - the repo expects to be located in the home dir at the moment
+
+The goal of this file is to give step-by-step instructions on how to tackle specific tasks with these scripts

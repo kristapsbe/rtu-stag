@@ -1,1 +1,7 @@
 samples/*.fq*
+*.o*
+local/utils/*.html
+local/utils/*.csv
+local/utils/refseq/*
+local/utils/outputs/*
+local/utils/.ipynb_checkpoints/*
