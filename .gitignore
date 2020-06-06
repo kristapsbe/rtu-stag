@@ -4,4 +4,5 @@ local/utils/*.html
 local/utils/*.csv
 local/utils/refseq/*
 local/utils/outputs/*
+local/utils/*.dat
 local/utils/.ipynb_checkpoints/*
