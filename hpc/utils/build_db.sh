@@ -5,5 +5,4 @@
 #PBS -q long
 #PBS -j oe
 
-cd ../../..
 kraken2/kraken2-build --build --db full_ref --threads 32

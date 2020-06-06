@@ -5,5 +5,4 @@
 #PBS -q long
 #PBS -j oe
 
-cd ../../..
 zip -r outputs.zip outputs/

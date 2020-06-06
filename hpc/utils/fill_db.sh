@@ -5,7 +5,6 @@
 #PBS -q long
 #PBS -j oe
 
-cd ../../..
 kraken2/kraken2-build --download-taxonomy --db full_ref --use-ftp
 
 for f in refseq/*.fna.gz
