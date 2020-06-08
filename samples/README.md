@@ -1,3 +1,1 @@
-folder for keeping samples in - script will move them around automatically
-
-the sample names have to conform to a naming convention
+Folder for keeping samples in - script will move them around automatically the sample names have to look like `..._<sample_id>_<direction_id>.fq.gz`
