@@ -4,6 +4,31 @@ This is a project that's intended to wrap [StaG-mwc](https://github.com/ctmrbio/
 
 Conda is expected to be installed on the host environment - https://www.digitalocean.com/community/tutorials/how-to-install-anaconda-on-ubuntu-18-04-quickstart can be used as installation instructions to set it up on a local environment.
 
+# Quick start
+
+Assuming you're looking to quickly try out these scripts locally
+* Go to your home directory 
+```
+cd ~
+```
+* Clone the repository
+```
+git clone https://github.com/lucren/rtu-stag.git
+```
+* Copy your samples into the `samples` folder
+* Go into the `local` folder
+```
+cd rtu-stag/local
+```
+* Run the `setup` script that will download and build databases 
+```
+./setup.sh
+```
+* Run the `run` script that will process your samples using the pipeline
+```
+./run.sh
+```
+
 # How to use
 
 If you wish to run the project without fiddling with any of the configuration files you should clone it into your home directory.
