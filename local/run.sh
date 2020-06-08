@@ -74,7 +74,7 @@ for f in process/process_*; do
     rm -rf "$f/stag-mwc/output_dir/host_removal/"
     rm -rf "$f/stag-mwc/output_dir/logs/"
     rm "$f/stag-mwc/output_dir/humann2/concat_input_reads.fq.gz"
-    rm -rf "$f/stag-mwc/output_dir/humann2/1_humann2_temp"
+    rm -rf "$f/stag-mwc/output_dir/humann2/*_humann2_temp"
     # save the output folder and free up the space taken
     datestamp=$(date -d "today" +"%Y%m%d%H%M")
     mv "$f/stag-mwc/output_dir" "outputs/output_dir_${sample}_${datestamp}"

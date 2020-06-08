@@ -10,3 +10,8 @@ This value should be changed to the location of the taxonomy database in `config
 kraken2:
     db: "databases/taxon_databases/kraken_taxon" 
 ```
+
+If you haven't cloned the project into your home directory you have to update this value
+```
+base_path: "~/"
+```
