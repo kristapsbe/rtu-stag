@@ -1,3 +1,5 @@
+This is a project that's intended to wrap [StaG-mwc](https://github.com/ctmrbio/stag-mwc) with the goal of automating and expanding it's usage when all samples cannot be processed at the same time.
+
 # Pre-usage assumptions
 
 Conda is expected to be installed on the host environment - https://www.digitalocean.com/community/tutorials/how-to-install-anaconda-on-ubuntu-18-04-quickstart can be used as installation instructions to set it up on a local environment.

@@ -1,12 +1,15 @@
 #!/bin/bash
 #PBS -N run_sample
-#PBS -l nodes=1:ppn=8,pmem=6g
+#PBS -l feature=largescratch
+#PBS -l nodes=1:ppn=32,pmem=6g
 #PBS -l walltime=24:00:00
 #PBS -q long
 #PBS -j oe
 
+du /scratch -h
+
 # how many threads do we have?
-threads=8
+threads=32
 module load conda
 # a bit of a stupid solution - but if it works it works
 source /opt/exp_soft/conda/anaconda3/etc/profile.d/conda.sh
@@ -22,7 +25,7 @@ cd "/scratch"
 rm -rf "$f" # clear out the folder in case this sample has already been on this node
 mkdir "$f"
 # copy the database folder over - just use scratch instead of using the sample dir
-rm -rf "/scratch/databases" # just straight-up deleting the db for the time being to swap them out cleanly
+rm -rf "/scratch/databases"
 if [ ! -d "/scratch/databases" ]; then # NB: thjs will cause issues if we ever want to update the databases
   cp -r "${home_path}/databases" "/scratch"
 fi
@@ -57,6 +60,7 @@ metaphlan --input_type fastq --nproc $threads --sample_id ${sample} --bowtie2out
 sed '/#/d' "${metaphlan_dir}${sample}.metaphlan.txt" | cut -f1,3 >> "${humann2_dir}mpa2_table-v2.7.7.txt"
 cat "$f/stag-mwc/output_dir/host_removal/${sample}_1.fq.gz" "$f/stag-mwc/output_dir/host_removal/${sample}_2.fq.gz" > "${humann2_dir}concat_input_reads.fq.gz"
 # humann2
+# ripping out humann2 to make the tests faster
 conda activate humann2
 humann2 --input "${humann2_dir}concat_input_reads.fq.gz" --output $humann2_dir --nucleotide-database "databases/func_databases/humann2/chocophlan" --protein-database "databases/func_databases/humann2/uniref" --output-basename $sample --threads $threads --taxonomic-profile "${humann2_dir}mpa2_table-v2.7.7.txt" 
 # normalize_humann2_tables
@@ -77,3 +81,4 @@ rm "$f/stag-mwc/output_dir/kraken2/*.kraken"
 datestamp=$(date -d "today" +"%Y%m%d%H%M")
 mv "$f/stag-mwc/output_dir" "${home_path}/outputs/output_dir_${sample}_${datestamp}"
 rm -rf "$f" # clean up after myself
+rm -rf "/scratch/databases"
