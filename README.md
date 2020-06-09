@@ -42,12 +42,35 @@ The project is divided into 4 folders:
 * `local`: holds scripts intended for running on a local system (or a remote system with no queueing system)
 * `samples`: intended to hold all of your samples (paired end reads expected with names that end with `..._<sample_id>_<direction_id>.fq.gz`)
 
+# How to use custom Kraken2 databases
+
+## Example scenario - you want to use minikraken in a local installation
+
+Follow the quick start until you reach the `run` step. At this point (once the `setup` script has been executed) there will be a `databases` folder in your home directory.
+
+Download [minikraken](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads) and extract the contents to `databases/minikraken` (you should end up with N *.k2d files directly in this folder).
+
+Once this has been done go to `rtu-stag/configs` and open the `config.local.yaml` file. Locate the line that says
+```
+db: "databases/taxon_databases/kraken_taxon"
+```
+and change it to 
+```
+db: "databases/minikraken"
+```
+
+Now you can go to the `rtu-stag/local` folder and use `./run.sh`, and it will use the minikraken database instead of using the one that was downloaded during the setup step
+
+## Example scenario - you want to use the big (google drive) database on the RTU cluster
+
+*TODO*
+
 # Notes
 
-## Important Note on Databases
+## Important note on databases
 
 Kraken2 seems to be pretty unreliable at downloading all required references (it looks like the NCBI ftp server starts timing out download request after a little while). I would, intstead, strongly recommend using either [Minikraken](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads) when running these scripts locally (assuming you have less than 192 gigabytes of RAM) or using a database [I've made available via google drive](https://drive.google.com/file/d/1PSdMtl6LDXdn7VvjjIwVTPEtISoQqXmm/view) if you're using a cluster (or have more than 192 gigabytes of ram available locally) (it contains all [bacteria](https://ftp.ncbi.nlm.nih.gov/refseq/release/bacteria/), [archaea](https://ftp.ncbi.nlm.nih.gov/refseq/release/archaea/) and [fungi](https://ftp.ncbi.nlm.nih.gov/refseq/release/fungi/) *.genomic.fna.gz available on the NCBI ftp server (as of june 2020))).
 
-## Additional Notes
+## Additional notes
 
 The scripts have been made for use in the [Universities of Latvia Institute of Clinical and Preventitive Medicine](https://www.kpmi.lu.lv/en-gb/).
