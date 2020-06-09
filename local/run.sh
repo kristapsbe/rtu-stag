@@ -43,8 +43,8 @@ for f in process/process_*; do
     cd "$f/stag-mwc"
     conda activate stag-mwc
     snakemake --use-conda --cores $threads
+    cd ../../.. # move back into the base dir
     if [ "$run_humann" = true ] ; then
-        cd ../../.. # move back into the base dir
         # run the humann2 stuff outside of stag - just ripping the whole thing to deal with dep conflicts between humann2 and snakemake
         humann2_dir="$f/stag-mwc/output_dir/humann2/"
         metaphlan_dir="$f/stag-mwc/output_dir/metaphlan/"
