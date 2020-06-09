@@ -48,7 +48,7 @@ The project is divided into 4 folders:
 
 Follow the quick start until you reach the `run` step. At this point (once the `setup` script has been executed) there will be a `databases` folder in your home directory.
 
-Download [minikraken](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads) and extract the contents to `databases/minikraken` (you should end up with N *.k2d files directly in this folder).
+Download [minikraken](https://ccb.jhu.edu/software/kraken2/index.shtml?t=downloads) and extract the contents to `databases/minikraken` (you should end up with three `*.k2d` files and three `*.kmer_distrib` files directly in this folder).
 
 Once this has been done go to `rtu-stag/configs` and open the `config.local.yaml` file. Locate the line that says
 ```
