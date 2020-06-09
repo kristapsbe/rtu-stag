@@ -16,6 +16,7 @@ cd ~
 git clone https://github.com/lucren/rtu-stag.git
 ```
 * Copy your samples into the `samples` folder
+* Open `configs/config.local.yaml` in a text editor and update the value for `base_path: ""` so that it contains your home directory (something like `base_path: "/home/username/"`)
 * Go into the `local` folder
 ```
 cd rtu-stag/local

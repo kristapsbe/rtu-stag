@@ -13,5 +13,5 @@ kraken2:
 
 If you haven't cloned the project into your home directory you have to update this value
 ```
-base_path: "~/"
+base_path: ""
 ```
