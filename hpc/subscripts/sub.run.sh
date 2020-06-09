@@ -10,6 +10,8 @@ du /scratch -h
 
 # how many threads do we have?
 threads=32
+run_humann=false # NB - this takes a while to run
+
 module load conda
 # a bit of a stupid solution - but if it works it works
 source /opt/exp_soft/conda/anaconda3/etc/profile.d/conda.sh
@@ -27,7 +29,7 @@ mkdir "$f"
 # copy the database folder over - just use scratch instead of using the sample dir
 rm -rf "/scratch/databases"
 if [ ! -d "/scratch/databases" ]; then # NB: thjs will cause issues if we ever want to update the databases
-  cp -r "${home_path}/databases" "/scratch"
+    cp -r "${home_path}/databases" "/scratch"
 fi
 
 cp -r "${home_path}/stag-mwc" "$f"
@@ -42,40 +44,42 @@ cp -r "${home_path}/kraken2" "/scratch"
 
 cd "$f/stag-mwc"
 snakemake --use-conda --cores $threads
-cd ../.. # move back into the base dir
-# run the humann2 stuff outside of stag - just ripping the whole thing to deal with dep conflicts between humann2 and snakemake
-humann2_dir="$f/stag-mwc/output_dir/humann2/"
-metaphlan_dir="$f/stag-mwc/output_dir/metaphlan/"
-mkdir -p "$humann2_dir"
-mkdir -p "$metaphlan_dir"
-# at this point we know that host_removal samples exist due to them being made for groot
-echo "#SampleID\t$sample" > mpa2_table-v2.7.7.txt
-# metaphlan had to run before humann2
-metaphlan --input_type fastq --nproc $threads --sample_id ${sample} --bowtie2out "${metaphlan_dir}${sample}.bowtie2.bz2" "$f/stag-mwc/output_dir/host_removal/${sample}_1.fq.gz","$f/stag-mwc/output_dir/host_removal/${sample}_2.fq.gz" -o "${metaphlan_dir}${sample}.metaphlan.txt"   
-# looks like metaphlan 3 has broken downloads as well
-#
-# Convert MPA 3 output to something like MPA2 v2.7.7 output 
-# so it can be used with HUMAnN2, avoids StaG issue #138.
-# TODO: Remove this once HUMANn2 v2.9 is out.
-sed '/#/d' "${metaphlan_dir}${sample}.metaphlan.txt" | cut -f1,3 >> "${humann2_dir}mpa2_table-v2.7.7.txt"
-cat "$f/stag-mwc/output_dir/host_removal/${sample}_1.fq.gz" "$f/stag-mwc/output_dir/host_removal/${sample}_2.fq.gz" > "${humann2_dir}concat_input_reads.fq.gz"
-# humann2
-# ripping out humann2 to make the tests faster
-conda activate humann2
-humann2 --input "${humann2_dir}concat_input_reads.fq.gz" --output $humann2_dir --nucleotide-database "databases/func_databases/humann2/chocophlan" --protein-database "databases/func_databases/humann2/uniref" --output-basename $sample --threads $threads --taxonomic-profile "${humann2_dir}mpa2_table-v2.7.7.txt" 
-# normalize_humann2_tables
-humann2_renorm_table --input "${humann2_dir}${sample}_genefamilies.tsv" --output "${humann2_dir}${sample}_genefamilies_relab.tsv" --units relab --mode community 
-humann2_renorm_table --input "${humann2_dir}${sample}_pathabundance.tsv" --output "${humann2_dir}${sample}_pathabundance_relab.tsv" --units relab --mode community
-# join_humann2_tables
-humann2_join_tables --input $humann2_dir --output "${humann2_dir}all_samples.humann2_genefamilies.tsv" --file_name genefamilies_relab
-humann2_join_tables --input $humann2_dir --output "${humann2_dir}all_samples.humann2_pathabundance.tsv" --file_name pathcoverage
-humann2_join_tables --input $humann2_dir --output "${humann2_dir}all_samples.humann2_pathcoverage.tsv" --file_name pathabundance_relab
-# cleanup after finishing    
+if [ "$run_humann" = true ] ; then
+    cd ../.. # move back into the base dir
+    # run the humann2 stuff outside of stag - just ripping the whole thing to deal with dep conflicts between humann2 and snakemake
+    humann2_dir="$f/stag-mwc/output_dir/humann2/"
+    metaphlan_dir="$f/stag-mwc/output_dir/metaphlan/"
+    mkdir -p "$humann2_dir"
+    mkdir -p "$metaphlan_dir"
+    # at this point we know that host_removal samples exist due to them being made for groot
+    echo "#SampleID\t$sample" > mpa2_table-v2.7.7.txt
+    # metaphlan had to run before humann2
+    metaphlan --input_type fastq --nproc $threads --sample_id ${sample} --bowtie2out "${metaphlan_dir}${sample}.bowtie2.bz2" "$f/stag-mwc/output_dir/host_removal/${sample}_1.fq.gz","$f/stag-mwc/output_dir/host_removal/${sample}_2.fq.gz" -o "${metaphlan_dir}${sample}.metaphlan.txt"   
+    # looks like metaphlan 3 has broken downloads as well
+    #
+    # Convert MPA 3 output to something like MPA2 v2.7.7 output 
+    # so it can be used with HUMAnN2, avoids StaG issue #138.
+    # TODO: Remove this once HUMANn2 v2.9 is out.
+    sed '/#/d' "${metaphlan_dir}${sample}.metaphlan.txt" | cut -f1,3 >> "${humann2_dir}mpa2_table-v2.7.7.txt"
+    cat "$f/stag-mwc/output_dir/host_removal/${sample}_1.fq.gz" "$f/stag-mwc/output_dir/host_removal/${sample}_2.fq.gz" > "${humann2_dir}concat_input_reads.fq.gz"
+    # humann2
+    # ripping out humann2 to make the tests faster
+    conda activate humann2
+    humann2 --input "${humann2_dir}concat_input_reads.fq.gz" --output $humann2_dir --nucleotide-database "databases/func_databases/humann2/chocophlan" --protein-database "databases/func_databases/humann2/uniref" --output-basename $sample --threads $threads --taxonomic-profile "${humann2_dir}mpa2_table-v2.7.7.txt" 
+    # normalize_humann2_tables
+    humann2_renorm_table --input "${humann2_dir}${sample}_genefamilies.tsv" --output "${humann2_dir}${sample}_genefamilies_relab.tsv" --units relab --mode community 
+    humann2_renorm_table --input "${humann2_dir}${sample}_pathabundance.tsv" --output "${humann2_dir}${sample}_pathabundance_relab.tsv" --units relab --mode community
+    # join_humann2_tables
+    humann2_join_tables --input $humann2_dir --output "${humann2_dir}all_samples.humann2_genefamilies.tsv" --file_name genefamilies_relab
+    humann2_join_tables --input $humann2_dir --output "${humann2_dir}all_samples.humann2_pathabundance.tsv" --file_name pathcoverage
+    humann2_join_tables --input $humann2_dir --output "${humann2_dir}all_samples.humann2_pathcoverage.tsv" --file_name pathabundance_relab
+    # cleanup after finishing   
+    rm "$f/stag-mwc/output_dir/humann2/concat_input_reads.fq.gz"
+    rm -rf "$f/stag-mwc/output_dir/humann2/*_humann2_temp/" # the 1 isn't supposed to be static - it corresponds with the sample num
+fi
 rm -rf "$f/stag-mwc/output_dir/fastp/"
 rm -rf "$f/stag-mwc/output_dir/host_removal/"
 #rm -rf "$f/stag-mwc/output_dir/logs/" # <- logs weigh borderline nothing - may as well leave them in
-rm "$f/stag-mwc/output_dir/humann2/concat_input_reads.fq.gz"
-rm -rf "$f/stag-mwc/output_dir/humann2/*_humann2_temp/" # the 1 isn't supposed to be static - it corresponds with the sample num
 rm "$f/stag-mwc/output_dir/kraken2/*.kraken"
 # save the output folder and free up the space taken
 datestamp=$(date -d "today" +"%Y%m%d%H%M")
