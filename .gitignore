@@ -2,6 +2,7 @@ samples/*.fq*
 *.o*
 local/utils/*.html
 local/utils/*.csv
+local/utils/data/*
 local/utils/refseq/*
 local/utils/outputs/*
 local/utils/*.dat
