@@ -7,7 +7,7 @@
 
 # how many threads do we have?
 threads=8
-pull_kraken=true # NB - this takes a while to run and kraken2 has a habit of failing silently
+pull_kraken=false # NB - this takes a while to run and kraken2 has a habit of failing silently
 pull_humann=false # no point in pulling the humann2 databases if we're not using them atm
 
 # create a conda env 
@@ -34,6 +34,11 @@ if [ "$pull_kraken" = true ] ; then
     mv kraken_taxon/taxonomy human_reference/taxonomy # this takes up around 30 gigs - if we can avoid downloading it again we should
 fi
 if [ "$pull_kraken" = false ] ; then
+    # we're not pulling the taxonomy database via kraken2 - fetch minikraken instead
+    wget ftp://ftp.ccb.jhu.edu/pub/data/kraken2_dbs/old/minikraken2_v2_8GB_201904.tgz -O minikraken2_v2_8GB_201904.tgz
+    tar zxvf minikraken2_v2_8GB_201904.tgz
+    rm minikraken2_v2_8GB_201904.tgz
+    mv minikraken2_v2_8GB_201904_UPDATE kraken_taxon
     # taxonomies didn't get pulled for the taxon base - need to pull them now
     ../../kraken2/kraken2-build --download-taxonomy --db human_reference --threads $threads --use-ftp
 fi
