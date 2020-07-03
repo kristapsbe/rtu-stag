@@ -78,7 +78,7 @@ for f in process/process_*; do
     # cleanup after finishing    
     rm -rf "$f/stag-mwc/output_dir/fastp/"
     rm -rf "$f/stag-mwc/output_dir/host_removal/"
-    rm -rf "$f/stag-mwc/output_dir/logs/"
+    #rm -rf "$f/stag-mwc/output_dir/logs/" # <- logs weigh borderline nothing - may as well leave them in
     # save the output folder and free up the space taken
     datestamp=$(date -d "today" +"%Y%m%d%H%M")
     mv "$f/stag-mwc/output_dir" "outputs/output_dir_${sample}_${datestamp}"
