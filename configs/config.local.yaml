@@ -25,7 +25,7 @@ email: ""                    # Email to send status message after completed/fail
 #########################
 # Pipeline steps included
 #########################
-qc_reads: False
+qc_reads: True
 host_removal: True
 naive:
     assess_depth: False
@@ -36,13 +36,13 @@ taxonomic_profile:
     metaphlan2: False
 functional_profile:
     humann2: False
-antibiotic_resistance: False
+antibiotic_resistance: True
 mappers:
     bbmap: False
     bowtie2: False
 assembly: False
 binning: False
-multiqc_report: False
+multiqc_report: True
 
 
 #########################
