@@ -9,3 +9,5 @@ local/utils/outputs/*
 local/utils/outputs*
 local/utils/*.dat
 local/utils/.ipynb_checkpoints/*
+*checksums.txt
+*.jpg

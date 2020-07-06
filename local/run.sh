@@ -5,10 +5,32 @@
 # how many threads do we have?
 threads=12
 run_humann=false # NB - this makes the whole process A LOT more taxing on your cpu and power delivery system
+verify_checksums=true 
 # https://github.com/conda/conda/issues/7980
 # these are the two default locations I've encountered
 #source /etc/profile.d/conda.sh 
 source ~/anaconda3/etc/profile.d/conda.sh
+
+if $verify_checksums; then
+    # work out if all files have downloaded properly by verifying checksums
+    cd ../samples
+    all_good=true
+
+    for f in *.fq.gz
+    do
+        checksum="$(shasum -a512 $f)"
+
+        if ! grep -q "$checksum" checksums.txt ; then
+            echo "The checksum for $f could not be matched - please either delete the sample or redownload it"
+            all_good=false
+        fi
+    done
+
+    if ! $all_good; then
+        echo "Please review damaged sample files and restart the script"
+        exit 1
+    fi
+fi
 
 # move back to the base folder
 cd ../..
@@ -76,11 +98,12 @@ for f in process/process_*; do
         rm -rf "$f/stag-mwc/output_dir/humann2/*_humann2_temp"
     fi
     # cleanup after finishing    
-    rm -rf "$f/stag-mwc/output_dir/fastp/"
-    rm -rf "$f/stag-mwc/output_dir/host_removal/"
+    #rm -rf "$f/stag-mwc/output_dir/fastp/"
+    #rm -rf "$f/stag-mwc/output_dir/host_removal/"
     #rm -rf "$f/stag-mwc/output_dir/logs/" # <- logs weigh borderline nothing - may as well leave them in
     # save the output folder and free up the space taken
     datestamp=$(date -d "today" +"%Y%m%d%H%M")
     mv "$f/stag-mwc/output_dir" "outputs/output_dir_${sample}_${datestamp}"
+    mv "$f/stag-mwc/input" "outputs/output_dir_${sample}_${datestamp}/input"
     rm -rf $f
 done
