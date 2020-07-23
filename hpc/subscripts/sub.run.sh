@@ -6,8 +6,6 @@
 #PBS -q long
 #PBS -j oe
 
-du /scratch -h
-
 # how many threads do we have?
 threads=32
 run_humann=false # NB - this takes a while to run
