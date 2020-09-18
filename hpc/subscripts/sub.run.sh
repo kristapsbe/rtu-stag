@@ -18,7 +18,7 @@ conda activate stag-mwc
 
 sample="$1" # that should contain the sample nums
 home_path="$2"
-f="/scratch/kristaps_$sample"
+f="/scratch/reinis01_$sample"
 
 # we need to move to the scratch dir to keep us from nuking their network infrastructure
 cd "/scratch"
@@ -27,14 +27,17 @@ mkdir "$f"
 # copy the database folder over - just use scratch instead of using the sample dir
 rm -rf "/scratch/databases"
 if [ ! -d "/scratch/databases" ]; then # NB: thjs will cause issues if we ever want to update the databases
-    cp -r "${home_path}/databases" "/scratch"
+    mkdir "scratch/databases"
+    cp -r "/mnt/home/groups/lu_kpmi/full_ref" "/scratch/databases"
+    cp -r "/mnt/home/groups/lu_kpmi/groot_db/groot_new_150" "/scratch/databases/func_databases/groot/arg-annot_index"
+    cp -r "${home_path}/databases/taxon_databases/human_reference" "/scratch/databases"
 fi
 
 cp -r "${home_path}/stag-mwc" "$f"
 cp "${home_path}/rtu-stag/configs/config.hpc.yaml" "$f/stag-mwc/config.yaml" # changing the name to the default simplifies running
 mkdir "$f/stag-mwc/input"
-for fname in ${home_path}/rtu-stag/samples/*_${sample}_*.fq.gz; do # move both sample files
-    trimmed=$(echo $fname | grep -o '[0-9]\+_[0-9]\+\.fq\.gz')
+for fname in "/mnt/home/groups/lu_kpmi/renamed_samples/Zymo*.fq.gz"; do # move both sample files
+    trimmed=$(echo $fname | grep -xo '[0-9]\+_[0-9]\+\.fq\.gz')
     cp $fname "$f/stag-mwc/input/$trimmed"
 done
 
