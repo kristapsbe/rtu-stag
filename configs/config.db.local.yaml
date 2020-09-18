@@ -14,7 +14,7 @@
 #########################
 # Run configuration
 #########################
-base_path: "/media/DriveD/Users/reinis/projekti/code/bioinfo/" # change this to your download dir
+base_path: "" # change this to your download dir
 inputdir: "input"
 input_fn_pattern: "{sample}_{readpair}.fq.gz" 
 outdir: "output_dir"
