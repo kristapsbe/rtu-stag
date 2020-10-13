@@ -45,8 +45,8 @@ fi
 # the human reference is small enough and builds consistently enough to be pullable via kraken 
 ../../kraken2/kraken2-build --download-library human --db human_reference --threads $threads --use-ftp --no-masking
 ../../kraken2/kraken2-build --build --db human_reference --threads $threads
-rm -rf human_reference/library # get rid of the 76 gig taxonomy library files
-rm -rf human_reference/taxonomy # get rid of the 30 gig taxonomy source files
+#rm -rf human_reference/library # get rid of the 76 gig taxonomy library files
+#rm -rf human_reference/taxonomy # get rid of the 30 gig taxonomy source files
 
 # move back to the base dir
 cd ../..

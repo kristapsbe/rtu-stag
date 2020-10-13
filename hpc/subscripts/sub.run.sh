@@ -6,8 +6,6 @@
 #PBS -q long
 #PBS -j oe
 
-du /scratch -h
-
 # how many threads do we have?
 threads=32
 run_humann=false # NB - this takes a while to run
@@ -20,6 +18,8 @@ conda activate stag-mwc
 
 sample="$1" # that should contain the sample nums
 home_path="$2"
+shared_path="$3"
+sample_path="$4"
 f="/scratch/kristaps_$sample"
 
 # we need to move to the scratch dir to keep us from nuking their network infrastructure
@@ -29,13 +29,16 @@ mkdir "$f"
 # copy the database folder over - just use scratch instead of using the sample dir
 rm -rf "/scratch/databases"
 if [ ! -d "/scratch/databases" ]; then # NB: thjs will cause issues if we ever want to update the databases
-    cp -r "${home_path}/databases" "/scratch"
+    cp -r "${shared_path}/databases" "/scratch"
+    if [ ! -d "${shared_path}/full_ref" ]; then # just making using the full db less of a pain
+        cp -r "${shared_path}/full_ref" "/scratch/databases"
+    fi
 fi
 
 cp -r "${home_path}/stag-mwc" "$f"
 cp "${home_path}/rtu-stag/configs/config.hpc.yaml" "$f/stag-mwc/config.yaml" # changing the name to the default simplifies running
 mkdir "$f/stag-mwc/input"
-for fname in ${home_path}/rtu-stag/samples/*_${sample}_*.fq.gz; do # move both sample files
+for fname in ${sample_path}*_${sample}_*.fq.gz; do # move both sample files
     trimmed=$(echo $fname | grep -o '[0-9]\+_[0-9]\+\.fq\.gz')
     cp $fname "$f/stag-mwc/input/$trimmed"
 done
