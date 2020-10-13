@@ -18,8 +18,10 @@ conda activate stag-mwc
 
 sample="$1" # that should contain the sample nums
 home_path="$2"
-shared_path="$3"
-sample_path="$4"
+taxon_db_path="$3"
+human_ref_path="$4"
+sample_path="$5"
+resistome_path="$6"
 f="/scratch/kristaps_$sample"
 
 # we need to move to the scratch dir to keep us from nuking their network infrastructure
@@ -29,10 +31,10 @@ mkdir "$f"
 # copy the database folder over - just use scratch instead of using the sample dir
 rm -rf "/scratch/databases"
 if [ ! -d "/scratch/databases" ]; then # NB: thjs will cause issues if we ever want to update the databases
-    cp -r "${shared_path}/databases" "/scratch"
-    if [ ! -d "${shared_path}/full_ref" ]; then # just making using the full db less of a pain
-        cp -r "${shared_path}/full_ref" "/scratch/databases"
-    fi
+    mkdir /scratch/databases
+    cp -r "${human_ref_path}" "/scratch/databases"
+    cp -r "${taxon_db_path}" "/scratch/databases"
+    cp -r "${resistome_path}" "/scratch/databases"
 fi
 
 cp -r "${home_path}/stag-mwc" "$f"
